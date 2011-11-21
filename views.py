@@ -26,6 +26,21 @@ def func1(current):
         [u'Админки', '/choice/adminlists/']]
 	return (now, links, current)
 
+def names_of_classes(classname):
+	name = {
+	'Client': [Client, 'name'],
+	'Project': [Project,'name'],
+	'Domain': [Domain, 'dns_url'],
+	'Site': [Site, 'url'],
+	'Websystem_list': [Websystem_list, 'name'],
+	'Websystem': [Websystem_list, 'web_login_name'],
+	'Cms': [Cms, 'name'],
+	'Mail': [Mail, 'login'],
+	'Contact': [Contact, 'fio'],
+	'Cms_acc': [Cms_acc, 'login']
+	}
+	return name[classname]
+
 def headers_tab(what):
 	list_head = {
 	'cl_cl': [u'Клиент'],
@@ -94,12 +109,13 @@ def choice_sites_form(request):
 
 def choice_projects_cli_in_form(request):
         now, links, notlink = func1(1)
+	select_from, name = names_of_classes('Client')
         return render_to_response('form_choice_projects_cli_in.html',
 	{
 		'current_date': now,
 		'choice_get': links,
 		'current': links[notlink][0],
-		'combo': [[pro.name, pro.name] for pro in Client.objects.all()]
+		'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
 	}
 	)
 
