@@ -129,7 +129,7 @@ def choice_in_abstr_form(request, data, kriterij, html):
                 'current_date': now,
                 'choice_get': menu,
                 'current': links[notlink][0],
-                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
+                'combo': [getattr(pro, name) for pro in select_from.objects.all()]
         }
         )
 
