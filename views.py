@@ -134,53 +134,31 @@ def choice_in_abstr_form(request, data, kriterij, html):
         )
 
 def choice_projects_cli_in_form(request):
-#        now, links, menu, notlink = func1('Project')
-#	select_from, name = names_of_classes('Client')
-#        return render_to_response('form_choice_projects_cli_in.html',
-#	{
-#		'current_date': now,
-#		'choice_get': menu,
-#		'current': links[notlink][0],
-#		'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
-#	}
-#	)
 	return choice_in_abstr_form(request, 'Project', 'Client', 'form_choice_projects_cli_in.html')
 
 def choice_domains_cli_in_form(request):
-        now, links, menu, notlink = func1('Domain')
-	select_from, name = names_of_classes('Client')
-        return render_to_response('form_choice_domains_cli_in.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
-        }
-        )
-
+	return choice_in_abstr_form(request, 'Domain', 'Client', 'form_choice_domains_cli_in.html')
+        
 def choice_domains_pro_in_form(request):
-        now, links, menu, notlink = func1('Domain')
-	select_from, name = names_of_classes('Project')
-        return render_to_response('form_choice_domains_pro_in.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
-        }
-        )
+	return choice_in_abstr_form(request, 'Domain', 'Project', 'form_choice_domains_pro_in.html')
 
 def choice_domains_dom_one_in_form(request):
-        now, links, menu, notlink = func1('Domain')
-	select_from, name = names_of_classes('Domain')
-        return render_to_response('form_choice_domains_domain_one_in.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
-        }
-        )
+	return choice_in_abstr_form(request, 'Domain', 'Domain', 'form_choice_domains_domain_one_in.html')
+        
+def choice_sites_cli_in_form(request):
+	return choice_in_abstr_form(request, 'Site', 'Client', 'form_choice_sites_cli_in.html')
+
+def choice_sites_pro_in_form(request):
+	return choice_in_abstr_form(request, 'Site', 'Project', 'form_choice_sites_pro_in.html')      
+
+def choice_sites_dom_in_form(request):
+	return choice_in_abstr_form(request, 'Site', 'Domain', 'form_choice_sites_dom_in.html')
+
+def choice_sites_sites_one_in_form(request):
+	return choice_in_abstr_form(request, 'Site', 'Site', 'form_choice_sites_sites_one_in.html')
+        
+def choice_sites_adm_in_form(request):
+        return choice_in_abstr_form(request, 'Site', 'Cms', 'form_choice_sites_adm_in.html')
 
 def choice_domains_dom_in_form(request):
         now, links, menu, notlink = func1('Domain')
@@ -190,65 +168,6 @@ def choice_domains_dom_in_form(request):
                 'choice_get': menu,
                 'current': links[notlink][0],
                 'combo': [[1, u'1 неделя'], [2, u'2 недели'], [4, u'1 месяц'], [8, u'2 месяца']]
-        }
-        )
-
-def choice_sites_cli_in_form(request):
-        now, links, menu, notlink = func1('Site')
-	select_from, name = names_of_classes('Client')
-        return render_to_response('form_choice_sites_cli_in.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
-        }
-        )
-def choice_sites_pro_in_form(request):
-        now, links, menu, notlink = func1('Site')
-	select_from, name = names_of_classes('Project')
-        return render_to_response('form_choice_sites_pro_in.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
-        }
-        )
-
-def choice_sites_dom_in_form(request):
-        now, links, menu, notlink = func1('Site')
-	select_from, name = names_of_classes('Domain')
-        return render_to_response('form_choice_sites_dom_in.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
-        }
-        )
-
-def choice_sites_sites_one_in_form(request):
-        now, links, menu, notlink = func1('Site')
-	select_from, name = names_of_classes('Site')
-        return render_to_response('form_choice_sites_sites_one_in.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
-        }
-        )
-
-def choice_sites_adm_in_form(request):
-        now, links, menu, notlink = func1('Site')
-	select_from, name = names_of_classes('Cms')
-        return render_to_response('form_choice_sites_adm_in.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
         }
         )
 
