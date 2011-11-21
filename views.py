@@ -14,16 +14,18 @@ def hello(request):
 
 def func1(current):
 	now = datetime.datetime.now()
-        links = [[u'Клиенты', '/choice/clients/'],
-        [u'Проекты', '/choice/projects/'],
-        [u'Домены', '/choice/domains/'],
-        [u'Сайты', '/choice/sites/'],
-        [u'Почта', '/choice/mails/'],
-        [u'Веб-системы', '/choice/websys/'],
-        [u'Список веб-систем', '/choice/websyslist/'],
-        [u'Контакты', '/choice/contactes'],
-        [u'Аккаунты админки', 'http://www.mid.ua/'],
-        [u'Админки', '/choice/adminlists/']]
+        links = {
+	'Client': [u'Клиенты', '/choice/clients/'],
+        'Project': [u'Проекты', '/choice/projects/'],
+        'Domain': [u'Домены', '/choice/domains/'],
+        'Site': [u'Сайты', '/choice/sites/'],
+        'Mail': [u'Почта', '/choice/mails/'],
+        'Websystem': [u'Веб-системы', '/choice/websys/'],
+        'Websystem_list': [u'Список веб-систем', '/choice/websyslist/'],
+        'Contact': [u'Контакты', '/choice/contactes'],
+        'Cms_acc': [u'Аккаунты админки', 'http://www.mid.ua/'],
+        'Cms': [u'Админки', '/choice/adminlists/']
+	}
 	return (now, links, current)
 
 def names_of_classes(classname):
@@ -64,7 +66,7 @@ def headers_tab(what):
 
 # Статические формы
 def choice_clients_form(request):
-	now, links, notlink = func1(0)
+	now, links, notlink = func1('Client')
 	return render_to_response('form_choice_clients.html',
 	{
 		'current_date': now,
@@ -76,7 +78,7 @@ def choice_clients_form(request):
 	)
 
 def choice_projects_form(request):
-        now, links, notlink = func1(1)
+        now, links, notlink = func1('Project')
         return render_to_response('form_choice_projects.html',
 	{
 		'current_date': now,
@@ -86,7 +88,7 @@ def choice_projects_form(request):
 	)
 
 def choice_domains_form(request):
-        now, links, notlink = func1(2)
+        now, links, notlink = func1('Domain')
         return render_to_response('form_choice_domains.html',
         {
                 'current_date': now,
@@ -96,7 +98,7 @@ def choice_domains_form(request):
         )
 
 def choice_sites_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Site')
         return render_to_response('form_choice_sites.html',
         {
                 'current_date': now,
@@ -107,8 +109,10 @@ def choice_sites_form(request):
 
 #Input-формы с комбобоксами
 
+def choice_in_abstr_form(request,)
+
 def choice_projects_cli_in_form(request):
-        now, links, notlink = func1(1)
+        now, links, notlink = func1('Project')
 	select_from, name = names_of_classes('Client')
         return render_to_response('form_choice_projects_cli_in.html',
 	{
@@ -120,7 +124,7 @@ def choice_projects_cli_in_form(request):
 	)
 
 def choice_domains_cli_in_form(request):
-        now, links, notlink = func1(2)
+        now, links, notlink = func1('Domain')
 	select_from, name = names_of_classes('Client')
         return render_to_response('form_choice_domains_cli_in.html',
         {
@@ -132,7 +136,7 @@ def choice_domains_cli_in_form(request):
         )
 
 def choice_domains_pro_in_form(request):
-        now, links, notlink = func1(2)
+        now, links, notlink = func1('Domain')
 	select_from, name = names_of_classes('Project')
         return render_to_response('form_choice_domains_pro_in.html',
         {
@@ -144,7 +148,7 @@ def choice_domains_pro_in_form(request):
         )
 
 def choice_domains_dom_one_in_form(request):
-        now, links, notlink = func1(2)
+        now, links, notlink = func1('Domain')
 	select_from, name = names_of_classes('Domain')
         return render_to_response('form_choice_domains_domain_one_in.html',
         {
@@ -156,7 +160,7 @@ def choice_domains_dom_one_in_form(request):
         )
 
 def choice_domains_dom_in_form(request):
-        now, links, notlink = func1(2)
+        now, links, notlink = func1('Domain')
         return render_to_response('form_choice_domains_dom_in.html',
         {
                 'current_date': now,
@@ -167,7 +171,7 @@ def choice_domains_dom_in_form(request):
         )
 
 def choice_sites_cli_in_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Site')
 	select_from, name = names_of_classes('Client')
         return render_to_response('form_choice_sites_cli_in.html',
         {
@@ -178,7 +182,7 @@ def choice_sites_cli_in_form(request):
         }
         )
 def choice_sites_pro_in_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Site')
 	select_from, name = names_of_classes('Project')
         return render_to_response('form_choice_sites_pro_in.html',
         {
@@ -190,7 +194,7 @@ def choice_sites_pro_in_form(request):
         )
 
 def choice_sites_dom_in_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Site')
 	select_from, name = names_of_classes('Domain')
         return render_to_response('form_choice_sites_dom_in.html',
         {
@@ -202,7 +206,7 @@ def choice_sites_dom_in_form(request):
         )
 
 def choice_sites_sites_one_in_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Site')
 	select_from, name = names_of_classes('Site')
         return render_to_response('form_choice_sites_sites_one_in.html',
         {
@@ -214,7 +218,7 @@ def choice_sites_sites_one_in_form(request):
         )
 
 def choice_sites_adm_in_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Site')
 	select_from, name = names_of_classes('Cms')
         return render_to_response('form_choice_sites_adm_in.html',
         {
@@ -229,7 +233,7 @@ def choice_sites_adm_in_form(request):
 
 # Результирующие формы
 def choice_projects_projects_form(request):
-        now, links, notlink = func1(1)
+        now, links, notlink = func1('Project')
         return render_to_response('form_choice_projects_projects.html',
         {
                 'current_date': now,
@@ -241,7 +245,7 @@ def choice_projects_projects_form(request):
         )
 
 def choice_projects_clients_form(request):
-        now, links, notlink = func1(1)
+        now, links, notlink = func1('Project')
 	a = get_object_or_404(Client, name=request.POST.get('pst'))
 
 	return render_to_response('form_choice_projects_clients.html', 
@@ -257,7 +261,7 @@ def choice_projects_clients_form(request):
 	)
 
 def choice_domains_clients_form(request):
-        now, links, notlink = func1(2)
+        now, links, notlink = func1('Domain')
         a = get_object_or_404(Client, name=request.POST.get('pst'))
 
         return render_to_response('form_choice_domains_clients.html', 
@@ -273,7 +277,7 @@ def choice_domains_clients_form(request):
         )
 
 def choice_domains_domains_form(request):
-        now, links, notlink = func1(2)
+        now, links, notlink = func1('Domain')
         return render_to_response('form_choice_domains_domains.html',
         {
                 'current_date': now,
@@ -286,7 +290,7 @@ def choice_domains_domains_form(request):
         )
 
 def choice_domains_projects_form(request):
-        now, links, notlink = func1(2)
+        now, links, notlink = func1('Domain')
         a = get_object_or_404(Project, name=request.POST.get('pst'))
 
         return render_to_response('form_choice_domains_projects.html',
@@ -303,7 +307,7 @@ def choice_domains_projects_form(request):
 
 
 def choice_domains_dates_form(request):
-        now, links, notlink = func1(2)
+        now, links, notlink = func1('Domain')
         a = get_list_or_404(Domain, dns_date__lt = (datetime.datetime.now() + datetime.timedelta(weeks = int(request.POST.get('pst')))))
 
         return render_to_response('form_choice_domains_dates.html',
@@ -319,7 +323,7 @@ def choice_domains_dates_form(request):
         )
 
 def choice_domains_domian_one_form(request):
-        now, links, notlink = func1(2)
+        now, links, notlink = func1('Domain')
         a = get_object_or_404(Domain, dns_url = request.POST.get('pst'))
 
         return render_to_response('form_choice_domains_domain_one.html',
@@ -335,7 +339,7 @@ def choice_domains_domian_one_form(request):
         )
 
 def choice_sites_sites_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Site')
         return render_to_response('form_choice_sites_sites.html',
         {
                 'current_date': now,
@@ -347,7 +351,7 @@ def choice_sites_sites_form(request):
         )
 
 def choice_sites_clients_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Site')
         a = get_object_or_404(Client, name=request.POST.get('pst'))
 
         return render_to_response('form_choice_sites_clients.html',
@@ -363,7 +367,7 @@ def choice_sites_clients_form(request):
         )
 
 def choice_sites_projects_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Site')
         a = get_object_or_404(Project, name=request.POST.get('pst'))
 
         return render_to_response('form_choice_sites_projects.html',
@@ -380,7 +384,7 @@ def choice_sites_projects_form(request):
 
 
 def choice_sites_domains_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Site')
         a = get_object_or_404(Domain, dns_url = request.POST.get('pst'))
 
         return render_to_response('form_choice_sites_domains.html',
@@ -396,7 +400,7 @@ def choice_sites_domains_form(request):
         )
 
 def choice_sites_sites_one_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Site')
         a = get_object_or_404(Site, url = request.POST.get('pst'))
 
         return render_to_response('form_choice_sites_sites_one.html',
@@ -412,7 +416,7 @@ def choice_sites_sites_one_form(request):
         )
 
 def choice_sites_admins_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Site')
         a = get_object_or_404(Cms, name = request.POST.get('pst'))
 
         return render_to_response('form_choice_sites_adm.html',
@@ -428,7 +432,7 @@ def choice_sites_admins_form(request):
         )
 
 def choice_mails_form(request):
-        now, links, notlink = func1(4)
+        now, links, notlink = func1('Mail')
         return render_to_response('form_choice_mails.html',
         {
                 'current_date': now,
@@ -438,7 +442,7 @@ def choice_mails_form(request):
         )
 
 def choice_websys_form(request):
-        now, links, notlink = func1(5)
+        now, links, notlink = func1('Websystem_list')
         return render_to_response('form_choice_websys.html',
         {
                 'current_date': now,
@@ -448,7 +452,7 @@ def choice_websys_form(request):
         )
 
 def choice_websyslist_form(request):
-        now, links, notlink = func1(6)
+        now, links, notlink = func1('Websystem_list')
         return render_to_response('form_choice_websyslist.html',
 	    {
 		        'current_date': now,
@@ -460,7 +464,7 @@ def choice_websyslist_form(request):
 	    )
 
 def choice_adminlists_form(request):
-        now, links, notlink = func1(9)
+        now, links, notlink = func1('Cms')
         return render_to_response('form_choice_adminlists.html',
 	    {
 		        'current_date': now,
@@ -472,7 +476,7 @@ def choice_adminlists_form(request):
 	    )
 
 def choice_mails_mails_form(request):
-        now, links, notlink = func1(6)
+        now, links, notlink = func1('Mail')
         return render_to_response('form_choice_mails_mails.html',
 	    {
 		        'current_date': now,
@@ -484,7 +488,7 @@ def choice_mails_mails_form(request):
 	    )
 
 def choice_mails_domains_form(request):
-        now, links, notlink = func1(3)
+        now, links, notlink = func1('Mail')
         a = get_object_or_404(Domain, dns_url = request.POST.get('pst'))
 
         return render_to_response('form_choice_mails_domains.html',
@@ -503,9 +507,9 @@ def current_datetime(request):
 	now = datetime.datetime.now()
 	return render_to_response('current_datetime.html', {'current_date': now})
 
-def what_form(request):
-	now, links, nl = func1(-1)
-        return render_to_response('form_what.html', {'current_date': now, 'choice_get': links})
+#def what_form(request):
+#	now, links, nl = func1(-1)
+#        return render_to_response('form_what.html', {'current_date': now, 'choice_get': links})
 
 def hours_ahead(request, offset):
 	try:
