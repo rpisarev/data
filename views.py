@@ -121,19 +121,30 @@ def choice_sites_form(request):
 
 #Input-формы с комбобоксами
 
-#def choice_in_abstr_form(request,)
+def choice_in_abstr_form(request, data, kriterij, html):
+	now, links, menu, notlink = func1(data)
+        select_from, name = names_of_classes(kriterij)
+        return render_to_response(html,
+        {
+                'current_date': now,
+                'choice_get': menu,
+                'current': links[notlink][0],
+                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
+        }
+        )
 
 def choice_projects_cli_in_form(request):
-        now, links, menu, notlink = func1('Project')
-	select_from, name = names_of_classes('Client')
-        return render_to_response('form_choice_projects_cli_in.html',
-	{
-		'current_date': now,
-		'choice_get': menu,
-		'current': links[notlink][0],
-		'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
-	}
-	)
+#        now, links, menu, notlink = func1('Project')
+#	select_from, name = names_of_classes('Client')
+#        return render_to_response('form_choice_projects_cli_in.html',
+#	{
+#		'current_date': now,
+#		'choice_get': menu,
+#		'current': links[notlink][0],
+#		'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
+#	}
+#	)
+	return choice_in_abstr_form(request, 'Project', 'Client', 'form_choice_projects_cli_in.html')
 
 def choice_domains_cli_in_form(request):
         now, links, menu, notlink = func1('Domain')
