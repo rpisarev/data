@@ -1,0 +1,26 @@
+{% extends "form_choice.html" %}
+
+{% block results %}
+<div  class="layer2">
+<br>
+<p>
+<table border = 1>
+<tr>
+{% for heder in headers %}
+	<th>{{ heder }}</th>
+{% endfor %}
+</tr>
+		{% for dat in data %}
+			<tr>
+			<td> {{ dat.project.client }} </td>
+			<td> {{ dat.project }} </td>
+			<td> {{ dat }} </td>
+            <td> {{ dat.sercode }} </td>
+			<td> {{ dat.dns_date }} </td>
+			</tr>
+		{% endfor %}
+</table>
+</p>
+</div>
+<br clear="both" />
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "form_choice.html" %}
+
+{% block results %}
+<div  class="layer2">
+<br>
+<p>{{ bu }}</p>
+<p>
+<table border = 1>
+<tr>
+{% for heder in headers %}
+	<th>{{ heder }}</th>
+{% endfor %}
+</tr>
+
+                {% for dat in data.sites.all %}
+                        <tr>
+                        <td> {{ data.project.client }} </td>
+                        <td> {{ data.project }} </td>
+                        <td> {{ data }} </td>
+                        <td> {{ dat }} </td>
+                        <td> {{ dat.test_flag }} </td>
+                        </tr>
+                {% endfor %}
+
+
+</table>
+</p>
+<p>{{ data.projects.object_list }}</p>
+</div>
+<br clear="both" />
+{% endblock %}

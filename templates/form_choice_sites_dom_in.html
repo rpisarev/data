@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>Выбор клиента</title>
+</head>
+<body>
+    <form action="/choice/sites/domains/" method="post">
+	<select name = "pst"
+	onchange="submit();">
+	<option>Выбор домена</option>
+	{% for k in combo %}
+		<option value="{{ k.0 }}"> {{ k.1 }}</option>
+	{% endfor %}
+	</select>
+    </form>
+</body>
+</html>

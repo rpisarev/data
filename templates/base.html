@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+	<style type="text/css">
+   		.layer1 {
+    	float: left; /* Обтекание по правому краю */
+    	background: #fc0;  /* Цвет фона */
+    	border: 1px solid black;  /* Параметры рамки */
+    	padding: 10px;  /* Поля вокруг текста */
+    	margin-right: 20px;  /* Отступ справа */
+/*    	width: 40%;  Ширина блока */
+   	}
+		.layer2{
+        float: left;
+        }
+        .head_btn{
+            font-size: 1.2em;
+            color: #888;
+            margin: 0px;
+            display: inline-block;
+            margin-right: 10px;
+            text-decoration: underline;
+            }
+        .head_btn:active{
+            color: #8F8;
+            text-decoration: none;
+        }
+
+  </style>
+</head>
+<body>
+    {% block content %}{% endblock %}
+    {% block footer %}
+    <div class="layer2">
+	<hr>
+    <p>Сайт DATA</p>
+	<p>&copy; 2010 - {{ current_date.year }} <a href="http://www.mid.ua/">Министерство Идей</a>  </p>
+	</div>
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>Выбор админки</title>
+</head>
+<body>
+    <form action="/choice/sites/admins/" method="post">
+	<select name = "pst"
+	onchange="submit();">
+	<option>Выбор админки</option>
+	{% for k in combo %}
+		<option value="{{ k.0 }}"> {{ k.1 }}</option>
+	{% endfor %}
+	</select>
+    </form>
+</body>
+</html>
