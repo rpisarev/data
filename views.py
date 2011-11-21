@@ -121,34 +121,37 @@ def choice_projects_cli_in_form(request):
 
 def choice_domains_cli_in_form(request):
         now, links, notlink = func1(2)
+	select_from, name = names_of_classes('Client')
         return render_to_response('form_choice_domains_cli_in.html',
         {
                 'current_date': now,
                 'choice_get': links,
                 'current': links[notlink][0],
-                'combo': [[pro.name, pro.name] for pro in Client.objects.all()]
+                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
         }
         )
 
 def choice_domains_pro_in_form(request):
         now, links, notlink = func1(2)
+	select_from, name = names_of_classes('Project')
         return render_to_response('form_choice_domains_pro_in.html',
         {
                 'current_date': now,
                 'choice_get': links,
                 'current': links[notlink][0],
-                'combo': [[pro.name, pro.name] for pro in Project.objects.all()]
+                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
         }
         )
 
 def choice_domains_dom_one_in_form(request):
         now, links, notlink = func1(2)
+	select_from, name = names_of_classes('Domain')
         return render_to_response('form_choice_domains_domain_one_in.html',
         {
                 'current_date': now,
                 'choice_get': links,
                 'current': links[notlink][0],
-                'combo': [[pro.dns_url, pro.dns_url] for pro in Domain.objects.all()]
+                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
         }
         )
 
@@ -165,55 +168,60 @@ def choice_domains_dom_in_form(request):
 
 def choice_sites_cli_in_form(request):
         now, links, notlink = func1(3)
+	select_from, name = names_of_classes('Client')
         return render_to_response('form_choice_sites_cli_in.html',
         {
                 'current_date': now,
                 'choice_get': links,
                 'current': links[notlink][0],
-                'combo': [[pro.name, pro.name] for pro in Client.objects.all()]
+                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
         }
         )
 def choice_sites_pro_in_form(request):
         now, links, notlink = func1(3)
+	select_from, name = names_of_classes('Project')
         return render_to_response('form_choice_sites_pro_in.html',
         {
                 'current_date': now,
                 'choice_get': links,
                 'current': links[notlink][0],
-                'combo': [[pro.name, pro.name] for pro in Project.objects.all()]
+                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
         }
         )
 
 def choice_sites_dom_in_form(request):
         now, links, notlink = func1(3)
+	select_from, name = names_of_classes('Domain')
         return render_to_response('form_choice_sites_dom_in.html',
         {
                 'current_date': now,
                 'choice_get': links,
                 'current': links[notlink][0],
-                'combo': [[pro.dns_url, pro.dns_url] for pro in Domain.objects.all()]
+                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
         }
         )
 
 def choice_sites_sites_one_in_form(request):
         now, links, notlink = func1(3)
+	select_from, name = names_of_classes('Site')
         return render_to_response('form_choice_sites_sites_one_in.html',
         {
                 'current_date': now,
                 'choice_get': links,
                 'current': links[notlink][0],
-                'combo': [[pro.url, pro.url] for pro in Site.objects.all()]
+                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
         }
         )
 
 def choice_sites_adm_in_form(request):
         now, links, notlink = func1(3)
+	select_from, name = names_of_classes('Cms')
         return render_to_response('form_choice_sites_adm_in.html',
         {
                 'current_date': now,
                 'choice_get': links,
                 'current': links[notlink][0],
-                'combo': [[pro.name, pro.name] for pro in Cms.objects.all()]
+                'combo': [[getattr(pro,name), getattr(pro,name)] for pro in select_from.objects.all()]
         }
         )
 
