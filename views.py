@@ -77,18 +77,37 @@ def headers_tab(what):
 	return list_head[what]
 
 # Статические формы
-def choice_clients_form(request):
-	now, links, menu, notlink = func1('Client')
-	return render_to_response('form_choice_clients.html',
-	{
-		'current_date': now,
-		'choice_get': menu,
-		'current': links[notlink][0], 
-		'headers': headers_tab('cl_cl'),
-		'data': [[cli.name] for cli in Client.objects.filter(enable = 1)]
-	}
-	)
 
+# Статические результирующие
+def choice_stat_result_abstr_form(request, category, title):
+	now, links, menu, notlink = func1(category)
+	select_from, name = names_of_classes(category)
+	data_choice = {
+	'Cms': (lambda cl: [[getattr(cli, name)] for cli in cl.objects.all()])(select_from),
+	'Websystem_list': (lambda cl: [[getattr(cli, name)] for cli in cl.objects.all()])(select_from),
+	}
+	if category == 'Client':
+		data_choice[category] = (lambda cl: [[getattr(cli, name)] for cli in cl.objects.filter(enable = 1)])(select_from)
+        return render_to_response('form_choice_clients.html',
+        {
+                'current_date': now,
+                'choice_get': menu,
+                'current': links[notlink][0],
+		'titl': [title],
+                'data': data_choice[category]
+        }
+        )
+
+def choice_adminlists_form(request):
+	return choice_stat_result_abstr_form(request, 'Cms', u'CMS')
+
+def choice_websyslist_form(request):
+	return choice_stat_result_abstr_form(request, 'Websystem_list', u'Веб-системы')
+
+def choice_clients_form(request):
+	return choice_stat_result_abstr_form(request, 'Client', u'Клиенты')
+
+# Статические нерезультирующие
 def choice_stat_abstr_form(request, category):
 	now, links, menu, notlink = func1(category)
 	link_list={
@@ -111,6 +130,8 @@ def choice_stat_abstr_form(request, category):
         }
 	)
 
+
+
 def choice_projects_form(request):
         return choice_stat_abstr_form(request, 'Project')
 
@@ -125,12 +146,6 @@ def choice_mails_form(request):
 
 def choice_websys_form(request):
         return choice_stat_abstr_form(request, 'Websystem')
-
-def choice_websyslist_form(request):
-        return choice_stat_abstr_form(request, 'Websystem_list')
-
-def choice_adminlists_form(request):
-        return choice_stat_abstr_form(request, 'Cms')
 
 def choice_contactes_form(request):
         return choice_stat_abstr_form(request, 'Contact')
