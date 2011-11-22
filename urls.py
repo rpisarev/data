@@ -44,9 +44,9 @@ urlpatterns = patterns('',
 	#(r'^choice/mails/projects/$', views.choice_mails_projects_form),
     #(r'^choice/mails/domains/in/$', views.choice_mails_dom_in_form),
 	#(r'^choice/mails/domains/$', views.choice_mails_domains_form),
-    #(r'^choice/websys/$', views.choice_websys_form),
-    #(r'^choice/websyslist/$', views.choice_websyslist_form),
-    #(r'^choice/adminlists/$', views.choice_adminlists_form),
+    (r'^choice/websys/$', views.choice_websys_form),
+    (r'^choice/websyslist/$', views.choice_websyslist_form),
+    (r'^choice/adminlists/$', views.choice_adminlists_form),
 
 
     # Example:

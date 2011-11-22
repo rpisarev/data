@@ -89,35 +89,49 @@ def choice_clients_form(request):
 	}
 	)
 
-def choice_projects_form(request):
-        now, links, menu, notlink = func1('Project')
-        return render_to_response('form_choice_projects.html',
-	{
-		'current_date': now,
-		'choice_get': menu,
-		'current': links[notlink][0]
+def choice_stat_abstr_form(request, category):
+	now, links, menu, notlink = func1(category)
+	link_list={
+        'Project': [[u'Выбрать все проекты', '/choice/projects/projects/'],[u'Выбрать проекты по клиенту', '/choice/projects/clients/in/']],
+        'Domain': [[u'Выбрать все домены', '/choice/domains/domains/'],[u'Выбрать домены по клиенту', '/choice/domains/clients/in/'],[u'Выбрать домены по проекту', '/choice/domains/projects/in/'],[u'Выбрать все домены, которые требуется продлить в течение', '/choice/domains/domains/in'],[u'Инфомация о домене', '/choice/domains/domains/one/in']],
+        'Site': [[u'Выбрать все сайты', '/choice/sites/sites/'],[u'Выбрать сайты по клиенту', '/choice/sites/clients/in/'],[u'Выбрать сайты по проекту', '/choice/sites/projects/in/'],[u'Выбрать сайты по домену', '/choice/sites/domains/in/'],[u'Выбрать сайты по админке', '/choice/sites/admins/in/'],[u'Инфомация о сайте', '/choice/sites/sites/one/in/']],
+        'Mail': [[u'Выбрать все email', '/choice/mails/mails/'],[u'Выбрать email по клиенту', '/choice/mails/clients/in/'],[u'Выбрать email по проекту', '/choice/mails/projects/in/'],[u'Выбрать email по домену', '/choice/mails/domains/in/']],
+        'Websystem': [[u'Выбрать все веб-системы', '/choice/websys/websys/'],[u'Выбрать веб-системы по клиенту', '/choice/websys/clients/in/'],[u'Выбрать веб-системы по проекту', '/choice/websys/projects/in/']],
+        'Websystem_list': [[u'Список веб-систем', '/choice/websyslist/']],
+        'Contact': [[u'Контакты', '/choice/contactes']],
+        'Cms_acc': [[u'Аккаунты админки', 'http://www.mid.ua/']],
+        'Cms': [[u'Админки', '/choice/adminlists/']]
 	}
-	)
-
-def choice_domains_form(request):
-        now, links, menu, notlink = func1('Domain')
         return render_to_response('form_choice_domains.html',
         {
                 'current_date': now,
                 'choice_get': menu,
+		'links': link_list[category],
                 'current': links[notlink][0]
         }
-        )
+	)
+
+def choice_projects_form(request):
+        return choice_stat_abstr_form(request, 'Project')
+
+def choice_domains_form(request):
+	return choice_stat_abstr_form(request, 'Domain')
 
 def choice_sites_form(request):
-        now, links, menu, notlink = func1('Site')
-        return render_to_response('form_choice_sites.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0]
-        }
-        )
+        return choice_stat_abstr_form(request, 'Site')
+
+def choice_mails_form(request):
+        return choice_stat_abstr_form(request, 'Mail')
+
+def choice_websys_form(request):
+        return choice_stat_abstr_form(request, 'Websystem')
+
+def choice_websyslist_form(request):
+        return choice_stat_abstr_form(request, 'Websystem_list')
+
+def choice_adminlists_form(request):
+        return choice_stat_abstr_form(request, 'Cms')
+
 
 #Input-формы с комбобоксами
 
@@ -374,50 +388,6 @@ def choice_sites_admins_form(request):
         #context_instance=RequestContext(request)
         )
 
-def choice_mails_form(request):
-        now, links, menu, notlink = func1('Mail')
-        return render_to_response('form_choice_mails.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0]
-        }
-        )
-
-def choice_websys_form(request):
-        now, links, menu, notlink = func1('Websystem_list')
-        return render_to_response('form_choice_websys.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0]
-        }
-        )
-
-def choice_websyslist_form(request):
-        now, links, menu, notlink = func1('Websystem_list')
-        return render_to_response('form_choice_websyslist.html',
-	    {
-		        'current_date': now,
-		        'choice_get': menu,
-		        'current': links[notlink][0],
-		        'headers': headers_tab('ws_list'),
-		        'data': [[pro.name, pro.url] for pro in Websystem_list.objects.all()]
-	    }
-	    )
-
-def choice_adminlists_form(request):
-        now, links, menu, notlink = func1('Cms')
-        return render_to_response('form_choice_adminlists.html',
-	    {
-		        'current_date': now,
-		        'choice_get': menu,
-		        'current': links[notlink][0],
-		        'headers': headers_tab('ad_list'),
-		        'data': [[pro.name, pro.codename, pro.version] for pro in Cms.objects.all()]
-	    }
-	    )
-
 def choice_mails_mails_form(request):
         now, links, menu, notlink = func1('Mail')
         return render_to_response('form_choice_mails_mails.html',
@@ -449,10 +419,6 @@ def choice_mails_domains_form(request):
 def current_datetime(request):
 	now = datetime.datetime.now()
 	return render_to_response('current_datetime.html', {'current_date': now})
-
-#def what_form(request):
-#	now, links, nl = func1(-1)
-#        return render_to_response('form_what.html', {'current_date': now, 'choice_get': links})
 
 def hours_ahead(request, offset):
 	try:

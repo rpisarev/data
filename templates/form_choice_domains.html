@@ -3,22 +3,10 @@
 {% block results %}
 <div  class="layer2">
 <br>
-<p>
-        <a href="/choice/domains/domains/">Выбрать все домены</a>
-</p>
 
-<p>
-	<a href="/choice/domains/clients/in/">Выбрать домены по клиенту</a>
-</p>
-<p>
-        <a href="/choice/domains/projects/in/">Выбрать домены по проекту</a>
-</p>
-<p>
-        <a href="/choice/domains/domains/in">Выбрать все домены, которые требуется продлить в течение</a>
-</p>
-<p>
-        <a href="/choice/domains/domains/one/in">Инфомация о домене</a>
-</p>
+{% for k in links %}
+        <p> <a href="{{k.1}}" >{{ k.0}}</a></p>
+{% endfor %}
 
 </div>
 <br clear="both" />
