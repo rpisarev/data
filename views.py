@@ -99,7 +99,7 @@ def choice_stat_result_abstr_form(request, category, title):
         )
 
 def choice_adminlists_form(request):
-	return choice_stat_result_abstr_form(request, 'Cms', u'CMS')
+	return choice_stat_result_abstr_form(request, 'Cms', u'Админки')
 
 def choice_websyslist_form(request):
 	return choice_stat_result_abstr_form(request, 'Websystem_list', u'Веб-системы')
@@ -289,19 +289,6 @@ def choice_domains_clients_form(request):
         #context_instance=RequestContext(request)
         )
 
-#def choice_domains_domains_form(request):
-#        now, links, menu, notlink = func1('Domain')
-#        return render_to_response('form_choice_domains_domains.html',
-#        {
-#                'current_date': now,
-#                'choice_get': menu,
-#                'current': links[notlink][0],
-#                'headers': headers_tab('dm'),
-#                #'data': Domain.objects.all()
-#		'data': Client.objects.all()
-#        }
-#        )
-
 def choice_domains_projects_form(request):
         now, links, menu, notlink = func1('Domain')
         a = get_object_or_404(Project, name=request.POST.get('pst'))
@@ -350,18 +337,6 @@ def choice_domains_domian_one_form(request):
         }#,
         #context_instance=RequestContext(request)
         )
-
-#def choice_sites_sites_form(request):
-#        now, links, menu, notlink = func1('Site')
-#        return render_to_response('form_choice_sites_sites.html',
-#        {
-#                'current_date': now,
-#                'choice_get': menu,
-#                'current': links[notlink][0],
-#                'headers': headers_tab('st'),
-#		        'data': Client.objects.all()
-#        }
-#        )
 
 def choice_sites_clients_form(request):
         now, links, menu, notlink = func1('Site')
@@ -443,18 +418,6 @@ def choice_sites_admins_form(request):
         }#,
         #context_instance=RequestContext(request)
         )
-
-#def choice_mails_mails_form(request):
-#        now, links, menu, notlink = func1('Mail')
-#        return render_to_response('form_choice_mails_mails.html',
-#	    {
-#		        'current_date': now,
-#		        'choice_get': menu,
-#		        'current': links[notlink][0],
-#		        'headers': headers_tab('ml_cl'),
-#		        'data': [[pro.fullemail(), pro.email()] for pro in Mail.objects.all()]
-#	    }
-#	    )
 
 def choice_mails_domains_form(request):
         now, links, menu, notlink = func1('Mail')
