@@ -23,7 +23,7 @@ def func1(current):
         'Websystem': [u'Веб-системы', '/choice/websys/'],
         'Websystem_list': [u'Список веб-систем', '/choice/websyslist/'],
         'Contact': [u'Контакты', '/choice/contactes'],
-        'Cms_acc': [u'Аккаунты админки', 'http://www.mid.ua/'],
+        'Cms_acc': [u'Аккаунты админки', '/choice/cms_acc'],
         'Cms': [u'Админки', '/choice/adminlists/']
 	}
 	menu = [ # Убрать костыль
@@ -35,7 +35,7 @@ def func1(current):
         [u'Веб-системы', '/choice/websys/'],
         [u'Список веб-систем', '/choice/websyslist/'],
         [u'Контакты', '/choice/contactes'],
-        [u'Аккаунты админки', 'http://www.mid.ua/'],
+        [u'Аккаунты админки', '/choice/cms_acc'],
         [u'Админки', '/choice/adminlists/']
         ]
 	return (now, links, menu, current)
@@ -99,7 +99,7 @@ def choice_stat_abstr_form(request, category):
         'Websystem': [[u'Выбрать все веб-системы', '/choice/websys/websys/'],[u'Выбрать веб-системы по клиенту', '/choice/websys/clients/in/'],[u'Выбрать веб-системы по проекту', '/choice/websys/projects/in/']],
         'Websystem_list': [[u'Список веб-систем', '/choice/websyslist/']],
         'Contact': [[u'Контакты', '/choice/contactes']],
-        'Cms_acc': [[u'Аккаунты админки', 'http://www.mid.ua/']],
+        'Cms_acc': [[u'Аккаунты админки', '/choice/cms_acc']],
         'Cms': [[u'Админки', '/choice/adminlists/']]
 	}
         return render_to_response('form_choice_domains.html',
@@ -132,6 +132,11 @@ def choice_websyslist_form(request):
 def choice_adminlists_form(request):
         return choice_stat_abstr_form(request, 'Cms')
 
+def choice_contactes_form(request):
+        return choice_stat_abstr_form(request, 'Contact')
+
+def choice_cms_acc_form(request):
+        return choice_stat_abstr_form(request, 'Cms_acc')
 
 #Input-формы с комбобоксами
 

@@ -47,6 +47,8 @@ urlpatterns = patterns('',
     (r'^choice/websys/$', views.choice_websys_form),
     (r'^choice/websyslist/$', views.choice_websyslist_form),
     (r'^choice/adminlists/$', views.choice_adminlists_form),
+    (r'^choice/contactes/$', views.choice_contactes_form),
+	(r'^choice/cms_acc/$', views.choice_cms_acc_form),
 
 
     # Example:
