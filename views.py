@@ -124,41 +124,42 @@ def choice_sites_form(request):
 def choice_in_abstr_form(request, data, kriterij, html):
 	now, links, menu, notlink = func1(data)
         select_from, name = names_of_classes(kriterij)
-        return render_to_response(html,
+        return render_to_response('form_choice_domains_cli_in.html',
         {
                 'current_date': now,
                 'choice_get': menu,
                 'current': links[notlink][0],
+		'url': html,
                 'combo': [getattr(pro, name) for pro in select_from.objects.all()]
         }
         )
 
 def choice_projects_cli_in_form(request):
-	return choice_in_abstr_form(request, 'Project', 'Client', 'form_choice_projects_cli_in.html')
+	return choice_in_abstr_form(request, 'Project', 'Client', '/choice/projects/clients/')
 
 def choice_domains_cli_in_form(request):
-	return choice_in_abstr_form(request, 'Domain', 'Client', 'form_choice_domains_cli_in.html')
+	return choice_in_abstr_form(request, 'Domain', 'Client', '/choice/domains/clients/')
         
 def choice_domains_pro_in_form(request):
-	return choice_in_abstr_form(request, 'Domain', 'Project', 'form_choice_domains_pro_in.html')
+	return choice_in_abstr_form(request, 'Domain', 'Project', '/choice/domains/projects/')
 
 def choice_domains_dom_one_in_form(request):
-	return choice_in_abstr_form(request, 'Domain', 'Domain', 'form_choice_domains_domain_one_in.html')
+	return choice_in_abstr_form(request, 'Domain', 'Domain', '/choice/domains/domains/one/')
         
 def choice_sites_cli_in_form(request):
-	return choice_in_abstr_form(request, 'Site', 'Client', 'form_choice_sites_cli_in.html')
+	return choice_in_abstr_form(request, 'Site', 'Client', '/choice/sites/clients/')
 
 def choice_sites_pro_in_form(request):
-	return choice_in_abstr_form(request, 'Site', 'Project', 'form_choice_sites_pro_in.html')      
+	return choice_in_abstr_form(request, 'Site', 'Project', '/choice/sites/projects/')      
 
 def choice_sites_dom_in_form(request):
-	return choice_in_abstr_form(request, 'Site', 'Domain', 'form_choice_sites_dom_in.html')
+	return choice_in_abstr_form(request, 'Site', 'Domain', '/choice/sites/domains/')
 
 def choice_sites_sites_one_in_form(request):
-	return choice_in_abstr_form(request, 'Site', 'Site', 'form_choice_sites_sites_one_in.html')
+	return choice_in_abstr_form(request, 'Site', 'Site', '/choice/sites/sites/one/')
         
 def choice_sites_adm_in_form(request):
-        return choice_in_abstr_form(request, 'Site', 'Cms', 'form_choice_sites_adm_in.html')
+        return choice_in_abstr_form(request, 'Site', 'Cms', '/choice/sites/admins/')
 
 def choice_domains_dom_in_form(request):
         now, links, menu, notlink = func1('Domain')
