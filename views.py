@@ -277,6 +277,23 @@ def choice_cms_acc_cms_acc_form(request):
         return choice_all_abstr_form(request, 'short','Cms_acc')
 
 # Результирующие "избирательные" формы
+
+def choice_domains_dates_form(request):
+        now, links, menu, notlink = func1('Domain')
+        a = get_list_or_404(Domain, dns_date__lt = (datetime.datetime.now() + datetime.timedelta(weeks = int(request.POST.get('pst')))))
+
+        return render_to_response('form_choice_domains_dates.html',
+        {
+                'current_date': now,
+                'choice_get': menu,
+                'current': links[notlink][0],
+                'headers': headers_tab('dm'),
+                'data': a,
+                'bu': request.POST.get('pst')
+        }#,
+        #context_instance=RequestContext(request)
+        )
+
 def choice_projects_clients_form(request):
         now, links, menu, notlink = func1('Project')
 	a = get_object_or_404(Client, name=request.POST.get('pst'))
@@ -319,23 +336,6 @@ def choice_domains_projects_form(request):
                 'choice_get': menu,
                 'current': links[notlink][0],
                 'headers': headers_tab('dm_cl'),
-                'data': a,
-                'bu': request.POST.get('pst')
-        }#,
-        #context_instance=RequestContext(request)
-        )
-
-
-def choice_domains_dates_form(request):
-        now, links, menu, notlink = func1('Domain')
-        a = get_list_or_404(Domain, dns_date__lt = (datetime.datetime.now() + datetime.timedelta(weeks = int(request.POST.get('pst')))))
-
-        return render_to_response('form_choice_domains_dates.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'headers': headers_tab('dm'),
                 'data': a,
                 'bu': request.POST.get('pst')
         }#,
