@@ -207,54 +207,73 @@ def choice_domains_dom_in_form(request):
 # Результирующие формы
 # "Всё-формы"
 
-def choice_projects_projects_form(request):
-        now, links, menu, notlink = func1('Project')
-        return render_to_response('form_choice_projects_projects.html',
+def get_headers_tables(leng, category):
+	sh = {
+	'Project': [[u'Клиент', u'Проект'],['client', 'name']],
+        'Domain': [[u'Клиент', u'Проект', u'Домен', u'Сервис-код', u'Дата окончания'],['project.client', 'project', 'dns_url', 'sercode', 'dns_date']],
+        'Site': [[u'Клиент', u'Проект', u'Домен', u'Сайт', u'Тестовый сайт?'],['domain.project.client', 'domain.project', 'domain', 'url', 'test_flag']],
+        'Mail': [[u'Клиент', u'Проект',u'Емайл', u'Владелец'],['domain.project.client', 'domain.project', 'login', 'owner_name']],
+        'Websystem': [[u'Клиент', u'Проект', u'Название службы'],['project.client', 'project', 'websystems_list.name']],
+#        'Websystem_list': [[u'Клиент', u'Проект'],['client', 'name']],
+        'Contact': [[u'Клиент', u'Проект', u'Сайт', u'ФИО', u'Должность', u'Телефон', u'Эл. адрес'],['site.domain.project.client', 'site.domain.project', 'site', 'fio', 'function', 'phone1', 'mail1']],
+        'Cms_acc': [[u'Клиент', u'Проект', u'Сайт', u'Имя', u'Логин', u'Эл. адрес'],['site.domain.project.client', 'site.domain.project', 'site', 'name', 'login', 'mail']],
+#        'Cms': [[u'Клиент', u'Проект'],['client', 'name']]
+	}
+	lg = {
+	'Project': [[u'Клиент', u'Проект'],['client', 'name']],
+        'Domain': [[u'Клиент', u'Проект', u'Домен', u'Сервис-код', u'Логин к управлению', u'Пароль', u'Дата окончания', u'Владелец'],['project.client', 'project', 'dns_url', 'sercode', 'dns_login', 'dns_pass', 'dns_date', 'dns_owner']],
+        'Site': [[u'Клиент', u'Проект', u'Домен', u'Название сайта', u'Сайт', u'Адрес FTP', u'Логин FTP', u'Пароль FTP', u'Адрес статистики', u'Логин к статистике', u'Пароль к статистике', u'Тестовый сайт?', u'Название админки', u'Версия админки'],['domain.project.client', 'domain.project', 'domain', 'title', 'url', 'ftp_url', 'ftp_login', 'ftp_pass', 'stat_url', 'stat_login', 'stat_pass', 'test_flag', 'cms.name', 'cms.version']],
+        'Mail': [[u'Клиент', u'Проект',u'Емайл', u'Пароль', u'Владелец'],['domain.project.client', 'domain.project', 'login', 'passwd', 'owner_name']],
+        'Websystem': [[u'Клиент', u'Проект', u'Название службы', u'Адрес доступа', u'Тип авторизации', u'Логин', u'Пароль'],['project.client', 'project', 'websystems_list.name', 'websystems_list.url', 'web_login_type', 'web_login_name', 'web_pass']],
+#        'Websystem_list': [[u'Клиент', u'Проект'],['client', 'name']],
+        'Contact': [[u'Клиент', u'Проект', u'Сайт', u'ФИО', u'Должность', u'Телефон 1', u'Телефон 2', u'Телефон 3', u'Эл. адрес 1', u'Эл. адрес 2'],['site.domain.project.client', 'site.domain.project', 'site', 'fio', 'function', 'phone1', 'phone2', 'phone3', 'mail1', 'mail2']],
+        'Cms_acc': [[u'Клиент', u'Проект', u'Сайт', u'Имя', u'Логин', u'Пароль', u'Эл. адрес', u'OpenID'],['site.domain.project.client', 'site.domain.project', 'site', 'name', 'login', 'passwd', 'mail', 'openid']],
+ #       'Cms': [[u'Клиент', u'Проект'],['client', 'name']]
+	}
+	head = {
+	'short': sh,
+	'long': lg
+	}
+	return head[leng][category]
+def rgetattr(o, n):
+	ns = n.split(".", 1)
+	x = getattr(o, ns[0])
+	return rgetattr(x, ns[1]) if len(ns)>1 else x
+
+def choice_all_abstr_form(request, length, category):
+	now, links, menu, notlink = func1(category)
+	select_from, name = names_of_classes(category)
+	h = get_headers_tables(length, category)
+	return render_to_response('form_choice_domains_domains1.html',
         {
                 'current_date': now,
                 'choice_get': menu,
                 'current': links[notlink][0],
-                'headers': headers_tab('pr_pr'),
-                'data': Project.objects.all()
+                'headers': h[0],
+		'combo':  [[rgetattr(pro, uname) for uname in h[1]] for pro in select_from.objects.all()]
         }
         )
+
+def choice_projects_projects_form(request):
+	return choice_all_abstr_form(request, 'long','Project')
 
 def choice_domains_domains_form(request):
-        now, links, menu, notlink = func1('Domain')
-        return render_to_response('form_choice_domains_domains.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'headers': headers_tab('dm'),
-                #'data': Domain.objects.all()
-                'data': Client.objects.all()
-        }
-        )
+	return choice_all_abstr_form(request, 'short','Domain')
 
 def choice_sites_sites_form(request):
-        now, links, menu, notlink = func1('Site')
-        return render_to_response('form_choice_sites_sites.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'headers': headers_tab('st'),
-		'data': Client.objects.all()
-        }
-        )
+	return choice_all_abstr_form(request, 'short','Site')
 
 def choice_mails_mails_form(request):
-        now, links, menu, notlink = func1('Mail')
-        return render_to_response('form_choice_mails_mails.html',
-            {
-                        'current_date': now,
-                        'choice_get': menu,
-                        'current': links[notlink][0],
-                        'headers': headers_tab('ml_cl'),
-                        'data': [[pro.fullemail(), pro.email()] for pro in Mail.objects.all()]
-            }
-            )
+	return choice_all_abstr_form(request, 'short','Mail')
+
+def choice_websys_websys_form(request):
+        return choice_all_abstr_form(request, 'short','Websystem')
+
+def choice_contactes_contactes_form(request):
+        return choice_all_abstr_form(request, 'short','Contact')
+
+def choice_cms_acc_cms_acc_form(request):
+        return choice_all_abstr_form(request, 'short','Cms_acc')
 
 # Результирующие "избирательные" формы
 def choice_projects_clients_form(request):
