@@ -235,6 +235,7 @@ def get_headers_tables(leng, category):
 	'long': lg
 	}
 	return head[leng][category]
+
 def rgetattr(o, n):
 	ns = n.split(".", 1)
 	x = getattr(o, ns[0])
