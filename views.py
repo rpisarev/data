@@ -278,6 +278,58 @@ def choice_cms_acc_cms_acc_form(request):
 
 # Результирующие "избирательные" формы
 
+def path_of_classes(classname1):
+        name1= {
+        'Project': ['client', ['projects']],
+        'Domain': ['project.client', ['projects', 'domains']],
+        'Site': ['domain.project.client', ['projects', 'domains', 'sites']],
+        'Websystem': ['project.client', ['projects', 'websystems']],
+        'Mail': ['domain.project.client', ['projects', 'domains', 'mails']],
+        'Contact': ['site.domain.project.client', ['projects', 'domains', 'sites', 'conacts']],
+        'Cms_acc': ['site.domain.project.client', ['projects', 'domains', 'sites', 'cms_accnts']]
+        }
+        return name1[classname1]
+
+def path_of_parent(classname, a):
+	name = {
+	'Client': 0,
+        'Project': 1,
+        'Domain': 2,
+        'Site': 3,
+	}
+	return a[name[classname]:]
+
+def recursive_iter(cl, iterator, k):
+        it = iterator
+        if len(iterator) == 0:
+                return [cl]
+        s = []
+        t = iterator[0]
+        o = iterator[1:]
+        u = getattr(cl, t).all()
+        for i in u:
+                s += recursive_iter(i, iterator[1:], k+1)
+        return s
+
+def choice_choice_abstr_form(request, length, category, kriterij):
+	now, links, menu, notlink = func1(category)
+        select_from, name = names_of_classes(category)
+	a = get_object_or_404(names_of_classes(kriterij)[0], **{names_of_classes(kriterij)[1]: request.POST.get('pst')} )#name=request.POST.get('pst'))
+	tt=path_of_classes(category)
+        ttt=path_of_parent(kriterij, tt[1])
+        s = list(recursive_iter(a, ttt, 0))
+        h = get_headers_tables(length, category)
+	return render_to_response('form_choice_domains_domains1.html',
+        {
+                'current_date': now,
+                'choice_get': menu,
+                'current': links[notlink][0],
+                'headers': h[0],
+                'combo':  [[rgetattr(pro, uname) for uname in h[1]] for pro in s]
+        }
+        )
+
+
 def choice_domains_dates_form(request):
         now, links, menu, notlink = func1('Domain')
         a = get_list_or_404(Domain, dns_date__lt = (datetime.datetime.now() + datetime.timedelta(weeks = int(request.POST.get('pst')))))
@@ -287,7 +339,6 @@ def choice_domains_dates_form(request):
                 'current_date': now,
                 'choice_get': menu,
                 'current': links[notlink][0],
-                'headers': headers_tab('dm'),
                 'data': a,
                 'bu': request.POST.get('pst')
         }#,
@@ -295,52 +346,13 @@ def choice_domains_dates_form(request):
         )
 
 def choice_projects_clients_form(request):
-        now, links, menu, notlink = func1('Project')
-	a = get_object_or_404(Client, name=request.POST.get('pst'))
-
-	return render_to_response('form_choice_projects_clients.html', 
-	{
-		'current_date': now, 
-		'choice_get': menu, 
-		'current': links[notlink][0],
-		'headers': headers_tab('pr_cl'),
-		'data': a, 
-		'bu': request.POST.get('pst')
-	}#,
-	#context_instance=RequestContext(request)
-	)
+	return choice_choice_abstr_form(request, 'long', 'Project', 'Client')
 
 def choice_domains_clients_form(request):
-        now, links, menu, notlink = func1('Domain')
-        a = get_object_or_404(Client, name=request.POST.get('pst'))
-
-        return render_to_response('form_choice_domains_clients.html', 
-        {
-                'current_date': now, 
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'headers': headers_tab('dm_cl'),
-                'data': a, 
-                'bu': request.POST.get('pst')
-        }#,
-        #context_instance=RequestContext(request)
-        )
+	return choice_choice_abstr_form(request, 'long', 'Domain', 'Client')
 
 def choice_domains_projects_form(request):
-        now, links, menu, notlink = func1('Domain')
-        a = get_object_or_404(Project, name=request.POST.get('pst'))
-
-        return render_to_response('form_choice_domains_projects.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'headers': headers_tab('dm_cl'),
-                'data': a,
-                'bu': request.POST.get('pst')
-        }#,
-        #context_instance=RequestContext(request)
-        )
+        return choice_choice_abstr_form(request, 'long', 'Domain', 'Project')
 
 def choice_domains_domian_one_form(request):
         now, links, menu, notlink = func1('Domain')
@@ -359,53 +371,13 @@ def choice_domains_domian_one_form(request):
         )
 
 def choice_sites_clients_form(request):
-        now, links, menu, notlink = func1('Site')
-        a = get_object_or_404(Client, name=request.POST.get('pst'))
-
-        return render_to_response('form_choice_sites_clients.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'headers': headers_tab('st_cl'),
-                'data': a,
-                'bu': request.POST.get('pst')
-        }#,
-        #context_instance=RequestContext(request)
-        )
+	return choice_choice_abstr_form(request, 'long', 'Site', 'Client')
 
 def choice_sites_projects_form(request):
-        now, links, menu, notlink = func1('Site')
-        a = get_object_or_404(Project, name=request.POST.get('pst'))
-
-        return render_to_response('form_choice_sites_projects.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'headers': headers_tab('st_cl'),
-                'data': a,
-                'bu': request.POST.get('pst')
-        }#,
-        #context_instance=RequestContext(request)
-        )
-
+        return choice_choice_abstr_form(request, 'long', 'Site', 'Project')
 
 def choice_sites_domains_form(request):
-        now, links, menu, notlink = func1('Site')
-        a = get_object_or_404(Domain, dns_url = request.POST.get('pst'))
-
-        return render_to_response('form_choice_sites_domains.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'headers': headers_tab('st'),
-                'data': a,
-                'bu': request.POST.get('pst')
-        }#,
-        #context_instance=RequestContext(request)
-        )
+        return choice_choice_abstr_form(request, 'long', 'Site', 'Domain')
 
 def choice_sites_sites_one_form(request):
         now, links, menu, notlink = func1('Site')
@@ -440,20 +412,7 @@ def choice_sites_admins_form(request):
         )
 
 def choice_mails_domains_form(request):
-        now, links, menu, notlink = func1('Mail')
-        a = get_object_or_404(Domain, dns_url = request.POST.get('pst'))
-
-        return render_to_response('form_choice_mails_domains.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'headers': headers_tab('ml_cli'),
-                'data': a,
-                'bu': request.POST.get('pst')
-        }#,
-        #context_instance=RequestContext(request)
-        )
+        return choice_choice_abstr_form(request, 'long', 'Mail', 'Domain')
 
 def current_datetime(request):
 	now = datetime.datetime.now()
