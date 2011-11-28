@@ -98,13 +98,13 @@ def choice_stat_result_abstr_form(request, category, title):
         }
         )
 
-def choice_adminlists_form(request):
+def adminlists_form(request):
 	return choice_stat_result_abstr_form(request, 'Cms', u'Админки')
 
-def choice_websyslist_form(request):
+def websyslist_form(request):
 	return choice_stat_result_abstr_form(request, 'Websystem_list', u'Веб-системы')
 
-def choice_clients_form(request):
+def clients_form(request):
 	return choice_stat_result_abstr_form(request, 'Client', u'Клиенты')
 
 # Статические нерезультирующие
@@ -130,25 +130,25 @@ def choice_stat_abstr_form(request, category):
         }
 	)
 
-def choice_projects_form(request):
+def projects_form(request):
         return choice_stat_abstr_form(request, 'Project')
 
-def choice_domains_form(request):
+def domains_form(request):
 	return choice_stat_abstr_form(request, 'Domain')
 
-def choice_sites_form(request):
+def sites_form(request):
         return choice_stat_abstr_form(request, 'Site')
 
-def choice_mails_form(request):
+def mails_form(request):
         return choice_stat_abstr_form(request, 'Mail')
 
-def choice_websys_form(request):
+def websys_form(request):
         return choice_stat_abstr_form(request, 'Websystem')
 
-def choice_contactes_form(request):
+def contactes_form(request):
         return choice_stat_abstr_form(request, 'Contact')
 
-def choice_cms_acc_form(request):
+def cms_acc_form(request):
         return choice_stat_abstr_form(request, 'Cms_acc')
 
 #Input-формы с комбобоксами
@@ -166,34 +166,34 @@ def choice_in_abstr_form(request, data, kriterij, html):
         }
         )
 
-def choice_projects_cli_in_form(request):
+def projects_cli_in_form(request):
 	return choice_in_abstr_form(request, 'Project', 'Client', '/choice/projects/clients/')
 
-def choice_domains_cli_in_form(request):
+def domains_cli_in_form(request):
 	return choice_in_abstr_form(request, 'Domain', 'Client', '/choice/domains/clients/')
         
-def choice_domains_pro_in_form(request):
+def domains_pro_in_form(request):
 	return choice_in_abstr_form(request, 'Domain', 'Project', '/choice/domains/projects/')
 
-def choice_domains_dom_one_in_form(request):
+def domains_dom_one_in_form(request):
 	return choice_in_abstr_form(request, 'Domain', 'Domain', '/choice/domains/domains/one/')
         
-def choice_sites_cli_in_form(request):
+def sites_cli_in_form(request):
 	return choice_in_abstr_form(request, 'Site', 'Client', '/choice/sites/clients/')
 
-def choice_sites_pro_in_form(request):
+def sites_pro_in_form(request):
 	return choice_in_abstr_form(request, 'Site', 'Project', '/choice/sites/projects/')      
 
-def choice_sites_dom_in_form(request):
+def sites_dom_in_form(request):
 	return choice_in_abstr_form(request, 'Site', 'Domain', '/choice/sites/domains/')
 
-def choice_sites_sites_one_in_form(request):
+def sites_sites_one_in_form(request):
 	return choice_in_abstr_form(request, 'Site', 'Site', '/choice/sites/sites/one/')
         
-def choice_sites_adm_in_form(request):
+def sites_adm_in_form(request):
         return choice_in_abstr_form(request, 'Site', 'Cms', '/choice/sites/admins/')
 
-def choice_domains_dom_in_form(request):
+def domains_dom_in_form(request):
         now, links, menu, notlink = func1('Domain')
         return render_to_response('form_choice_domains_dom_in.html',
         {
@@ -219,6 +219,17 @@ def get_headers_tables(leng, category):
         'Cms_acc': [[u'Клиент', u'Проект', u'Сайт', u'Имя', u'Логин', u'Эл. адрес'],['site.domain.project.client', 'site.domain.project', 'site', 'name', 'login', 'mail']],
 #        'Cms': [[u'Клиент', u'Проект'],['client', 'name']]
 	}
+	md = {
+        'Project': [[u'Клиент', u'Проект'],['client', 'name']],
+        'Domain': [[u'Клиент', u'Проект', u'Домен', u'Сервис-код', u'Логин к управлению', u'Пароль', u'Дата окончания', u'Владелец'],['project.client', 'project', 'dns_url', 'sercode', 'dns_login', 'dns_pass', 'dns_date', 'dns_owner']],
+        'Site': [[u'Клиент', u'Проект', u'Домен', u'Название сайта', u'Сайт', u'Адрес FTP', u'Логин FTP', u'Пароль FTP', u'Адрес статистики', u'Логин к статистике', u'Пароль к статистике', u'Тестовый сайт?', u'Название админки', u'Версия админки'],['domain.project.client', 'domain.project', 'domain', 'title', 'url', 'ftp_url', 'ftp_login', 'ftp_pass', 'stat_url', 'stat_login', 'stat_pass', 'test_flag', 'cms.name', 'cms.version']],
+        'Mail': [[u'Клиент', u'Проект',u'Емайл', u'Пароль', u'Владелец'],['domain.project.client', 'domain.project', 'login', 'passwd', 'owner_name']],
+        'Websystem': [[u'Клиент', u'Проект', u'Название службы', u'Адрес доступа', u'Тип авторизации', u'Логин', u'Пароль'],['project.client', 'project', 'websystems_list.name', 'websystems_list.url', 'web_login_type', 'web_login_name', 'web_pass']],
+#        'Websystem_list': [[u'Клиент', u'Проект'],['client', 'name']],
+        'Contact': [[u'Клиент', u'Проект', u'Сайт', u'ФИО', u'Должность', u'Телефон 1', u'Телефон 2', u'Телефон 3', u'Эл. адрес 1', u'Эл. адрес 2'],['site.domain.project.client', 'site.domain.project', 'site', 'fio', 'function', 'phone1', 'phone2', 'phone3', 'mail1', 'mail2']],
+        'Cms_acc': [[u'Клиент', u'Проект', u'Сайт', u'Имя', u'Логин', u'Пароль', u'Эл. адрес', u'OpenID'],['site.domain.project.client', 'site.domain.project', 'site', 'name', 'login', 'passwd', 'mail', 'openid']],
+ #       'Cms': [[u'Клиент', u'Проект'],['client', 'name']]
+        }
 	lg = {
 	'Project': [[u'Клиент', u'Проект'],['client', 'name']],
         'Domain': [[u'Клиент', u'Проект', u'Домен', u'Сервис-код', u'Логин к управлению', u'Пароль', u'Дата окончания', u'Владелец'],['project.client', 'project', 'dns_url', 'sercode', 'dns_login', 'dns_pass', 'dns_date', 'dns_owner']],
@@ -232,6 +243,7 @@ def get_headers_tables(leng, category):
 	}
 	head = {
 	'short': sh,
+	'medium': md,
 	'long': lg
 	}
 	return head[leng][category]
@@ -255,25 +267,25 @@ def choice_all_abstr_form(request, length, category):
         }
         )
 
-def choice_projects_projects_form(request):
+def projects_projects_form(request):
 	return choice_all_abstr_form(request, 'long','Project')
 
-def choice_domains_domains_form(request):
+def domains_domains_form(request):
 	return choice_all_abstr_form(request, 'short','Domain')
 
-def choice_sites_sites_form(request):
+def sites_sites_form(request):
 	return choice_all_abstr_form(request, 'short','Site')
 
-def choice_mails_mails_form(request):
+def mails_mails_form(request):
 	return choice_all_abstr_form(request, 'short','Mail')
 
-def choice_websys_websys_form(request):
+def websys_websys_form(request):
         return choice_all_abstr_form(request, 'short','Websystem')
 
-def choice_contactes_contactes_form(request):
+def contactes_contactes_form(request):
         return choice_all_abstr_form(request, 'short','Contact')
 
-def choice_cms_acc_cms_acc_form(request):
+def cms_acc_cms_acc_form(request):
         return choice_all_abstr_form(request, 'short','Cms_acc')
 
 # Результирующие "избирательные" формы
@@ -314,7 +326,7 @@ def recursive_iter(cl, iterator, k):
 def choice_choice_abstr_form(request, length, category, kriterij):
 	now, links, menu, notlink = func1(category)
         select_from, name = names_of_classes(category)
-	a = get_object_or_404(names_of_classes(kriterij)[0], **{names_of_classes(kriterij)[1]: request.POST.get('pst')} )#name=request.POST.get('pst'))
+	a = get_object_or_404(names_of_classes(kriterij)[0], **{names_of_classes(kriterij)[1]: request.POST.get('pst')} )
 	tt=path_of_classes(category)
         ttt=path_of_parent(kriterij, tt[1])
         s = list(recursive_iter(a, ttt, 0))
@@ -330,7 +342,7 @@ def choice_choice_abstr_form(request, length, category, kriterij):
         )
 
 
-def choice_domains_dates_form(request):
+def domains_dates_form(request):
         now, links, menu, notlink = func1('Domain')
         a = get_list_or_404(Domain, dns_date__lt = (datetime.datetime.now() + datetime.timedelta(weeks = int(request.POST.get('pst')))))
 
@@ -345,16 +357,16 @@ def choice_domains_dates_form(request):
         #context_instance=RequestContext(request)
         )
 
-def choice_projects_clients_form(request):
-	return choice_choice_abstr_form(request, 'long', 'Project', 'Client')
+def projects_clients_form(request):
+	return choice_choice_abstr_form(request, 'medium', 'Project', 'Client')
 
-def choice_domains_clients_form(request):
-	return choice_choice_abstr_form(request, 'long', 'Domain', 'Client')
+def domains_clients_form(request):
+	return choice_choice_abstr_form(request, 'medium', 'Domain', 'Client')
 
-def choice_domains_projects_form(request):
-        return choice_choice_abstr_form(request, 'long', 'Domain', 'Project')
+def domains_projects_form(request):
+        return choice_choice_abstr_form(request, 'medium', 'Domain', 'Project')
 
-def choice_domains_domian_one_form(request):
+def domains_domian_one_form(request):
         now, links, menu, notlink = func1('Domain')
         a = get_object_or_404(Domain, dns_url = request.POST.get('pst'))
 
@@ -370,16 +382,16 @@ def choice_domains_domian_one_form(request):
         #context_instance=RequestContext(request)
         )
 
-def choice_sites_clients_form(request):
-	return choice_choice_abstr_form(request, 'long', 'Site', 'Client')
+def sites_clients_form(request):
+	return choice_choice_abstr_form(request, 'medium', 'Site', 'Client')
 
-def choice_sites_projects_form(request):
-        return choice_choice_abstr_form(request, 'long', 'Site', 'Project')
+def sites_projects_form(request):
+        return choice_choice_abstr_form(request, 'medium', 'Site', 'Project')
 
-def choice_sites_domains_form(request):
-        return choice_choice_abstr_form(request, 'long', 'Site', 'Domain')
+def sites_domains_form(request):
+        return choice_choice_abstr_form(request, 'medium', 'Site', 'Domain')
 
-def choice_sites_sites_one_form(request):
+def sites_sites_one_form(request):
         now, links, menu, notlink = func1('Site')
         a = get_object_or_404(Site, url = request.POST.get('pst'))
 
@@ -395,7 +407,7 @@ def choice_sites_sites_one_form(request):
         #context_instance=RequestContext(request)
         )
 
-def choice_sites_admins_form(request):
+def sites_admins_form(request):
         now, links, menu, notlink = func1('Site')
         a = get_object_or_404(Cms, name = request.POST.get('pst'))
 
@@ -411,18 +423,18 @@ def choice_sites_admins_form(request):
         #context_instance=RequestContext(request)
         )
 
-def choice_mails_domains_form(request):
-        return choice_choice_abstr_form(request, 'long', 'Mail', 'Domain')
+def mails_domains_form(request):
+        return choice_choice_abstr_form(request, 'medium', 'Mail', 'Domain')
 
-def current_datetime(request):
-	now = datetime.datetime.now()
-	return render_to_response('current_datetime.html', {'current_date': now})
+#def current_datetime(request):
+#	now = datetime.datetime.now()
+#	return render_to_response('current_datetime.html', {'current_date': now})
 
-def hours_ahead(request, offset):
-	try:
-		offset = int(offset)
-	except ValueError:
-		raise Http404()
-	dt = datetime.datetime.now() + datetime.timedelta(hours = offset)
-	dn = datetime.datetime.now()
-	return render_to_response('hours_ahead.html', {'next_time': dt, 'hour_offset': offset, 'current_date': dn})
+#def hours_ahead(request, offset):
+#	try:
+#		offset = int(offset)
+#	except ValueError:
+#		raise Http404()
+#	dt = datetime.datetime.now() + datetime.timedelta(hours = offset)
+#	dn = datetime.datetime.now()
+#	return render_to_response('hours_ahead.html', {'next_time': dt, 'hour_offset': offset, 'current_date': dn})
