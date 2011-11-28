@@ -7,7 +7,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
 	('^$', views.hello),
 #	('^time/$', views.current_datetime),
-#	(r'^time/plus/(\d{1,2})/$', views.hours_ahead),
+	(r'^time/plus/(\d{1,2})/$', views.hours_ahead),
 	(r'^choice/clients/$', views.clients_form),
 	(r'^choice/projects/$', views.projects_form),
 	(r'^choice/projects/projects/$', views.projects_projects_form),

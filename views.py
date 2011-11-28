@@ -311,25 +311,24 @@ def path_of_parent(classname, a):
 	}
 	return a[name[classname]:]
 
-def recursive_iter(cl, iterator, k):
-        it = iterator
+def recursive_iter(cl, iterator, k = 0):
         if len(iterator) == 0:
                 return [cl]
         s = []
-        t = iterator[0]
-        o = iterator[1:]
-        u = getattr(cl, t).all()
+        u = getattr(cl, iterator[0]).all()
         for i in u:
-                s += recursive_iter(i, iterator[1:], k+1)
+                s += recursive_iter(i, iterator[1:], k + 1)
         return s
 
 def choice_choice_abstr_form(request, length, category, kriterij):
 	now, links, menu, notlink = func1(category)
         select_from, name = names_of_classes(category)
-	a = get_object_or_404(names_of_classes(kriterij)[0], **{names_of_classes(kriterij)[1]: request.POST.get('pst')} )
-	tt=path_of_classes(category)
-        ttt=path_of_parent(kriterij, tt[1])
-        s = list(recursive_iter(a, ttt, 0))
+	class_type = 0
+	class_record = 1
+	a = get_object_or_404(names_of_classes(kriterij)[class_type], **{names_of_classes(kriterij)[class_record]: request.POST.get('pst')} )
+	child_class = path_of_classes(category)
+        path_for_parent = path_of_parent(kriterij, child_class[class_record])
+        list_of_classes_for_iteration = recursive_iter(a, path_for_parent)
         h = get_headers_tables(length, category)
 	return render_to_response('form_choice_domains_domains1.html',
         {
@@ -337,7 +336,7 @@ def choice_choice_abstr_form(request, length, category, kriterij):
                 'choice_get': menu,
                 'current': links[notlink][0],
                 'headers': h[0],
-                'combo':  [[rgetattr(pro, uname) for uname in h[1]] for pro in s]
+                'combo':  [[rgetattr(pro, uname) for uname in h[1]] for pro in list_of_classes_for_iteration]
         }
         )
 
@@ -426,15 +425,12 @@ def sites_admins_form(request):
 def mails_domains_form(request):
         return choice_choice_abstr_form(request, 'medium', 'Mail', 'Domain')
 
-#def current_datetime(request):
-#	now = datetime.datetime.now()
-#	return render_to_response('current_datetime.html', {'current_date': now})
 
-#def hours_ahead(request, offset):
-#	try:
-#		offset = int(offset)
-#	except ValueError:
-#		raise Http404()
-#	dt = datetime.datetime.now() + datetime.timedelta(hours = offset)
-#	dn = datetime.datetime.now()
-#	return render_to_response('hours_ahead.html', {'next_time': dt, 'hour_offset': offset, 'current_date': dn})
+def hours_ahead(request, offset):
+	try:
+		offset = int(offset)
+	except ValueError:
+		raise Http404()
+	dt = datetime.datetime.now() + datetime.timedelta(hours = offset)
+	dn = datetime.datetime.now()
+	return render_to_response('hours_ahead.html', {'next_time': dt, 'hour_offset': offset, 'current_date': dn})
