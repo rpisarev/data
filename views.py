@@ -163,11 +163,14 @@ def choice_in_abstr_form(request, data, kriterij, html):
         )
 
 
+def objects_in_form(request, s1, s2):
+	return choice_in_abstr_form(request, s1, s2, '/choice/' + s1 + '/' + s2+ '/')
+
 def projects_cli_in_form(request):
 	return choice_in_abstr_form(request, 'projects', 'clients', '/choice/projects/clients/')
 
-def domains_cli_in_form(request):
-	return choice_in_abstr_form(request, 'domains', 'clients', '/choice/domains/clients/')
+#def domains_cli_in_form(request):
+#	return choice_in_abstr_form(request, 'domains', 'clients', '/choice/domains/clients/')
         
 def domains_pro_in_form(request):
 	return choice_in_abstr_form(request, 'domains', 'projects', '/choice/domains/projects/')
