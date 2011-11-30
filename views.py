@@ -256,14 +256,14 @@ def rgetattr(o, n):
 def choice_all_abstr_form(request, length, category):
 	now, links, menu, notlink = func1(category)
 	select_from, name = names_of_classes(category)
-	h = get_headers_tables(length, category)
+	hdr = get_headers_tables(length, category)
 	return render_to_response('form_choice_domains_domains1.html',
         {
                 'current_date': now,
                 'choice_get': menu,
                 'current': links[notlink][0],
-                'headers': h[0],
-		'combo':  [[rgetattr(pro, uname) for uname in h[1]] for pro in select_from.objects.all()]
+                'headers': hdr[0],
+		'combo':  [[rgetattr(pro, uname) for uname in hdr[1]] for pro in select_from.objects.all()]
         }
         )
 
@@ -290,8 +290,8 @@ def cms_acc_cms_acc_form(request):
 
 # Результирующие "избирательные" формы
 
-def path_of_classes(classname1):
-        name1= {
+def path_of_classes(classname):
+        name= {
         'Project': ['client', ['projects']],
         'Domain': ['project.client', ['projects', 'domains']],
         'Site': ['domain.project.client', ['projects', 'domains', 'sites']],
@@ -300,7 +300,7 @@ def path_of_classes(classname1):
         'Contact': ['site.domain.project.client', ['projects', 'domains', 'sites', 'conacts']],
         'Cms_acc': ['site.domain.project.client', ['projects', 'domains', 'sites', 'cms_accnts']]
         }
-        return name1[classname1]
+        return name[classname]
 
 def path_of_parent(classname, a):
 	name = {
@@ -311,32 +311,32 @@ def path_of_parent(classname, a):
 	}
 	return a[name[classname]:]
 
-def recursive_iter(cl, iterator, k = 0):
+def recursive_iter(cl, iterator, count = 0):
         if len(iterator) == 0:
                 return [cl]
-        s = []
+        res = []
         u = getattr(cl, iterator[0]).all()
         for i in u:
-                s += recursive_iter(i, iterator[1:], k + 1)
-        return s
+                res += recursive_iter(i, iterator[1:], count + 1)
+        return res
 
 def choice_choice_abstr_form(request, length, category, kriterij):
 	now, links, menu, notlink = func1(category)
         select_from, name = names_of_classes(category)
 	class_type = 0
 	class_record = 1
-	a = get_object_or_404(names_of_classes(kriterij)[class_type], **{names_of_classes(kriterij)[class_record]: request.POST.get('pst')} )
+	obj = get_object_or_404(names_of_classes(kriterij)[class_type], **{names_of_classes(kriterij)[class_record]: request.POST.get('pst')} )
 	child_class = path_of_classes(category)
         path_for_parent = path_of_parent(kriterij, child_class[class_record])
-        list_of_classes_for_iteration = recursive_iter(a, path_for_parent)
-        h = get_headers_tables(length, category)
+        list_of_classes_for_iteration = recursive_iter(ibj, path_for_parent)
+        hdr = get_headers_tables(length, category)
 	return render_to_response('form_choice_domains_domains1.html',
         {
                 'current_date': now,
                 'choice_get': menu,
                 'current': links[notlink][0],
-                'headers': h[0],
-                'combo':  [[rgetattr(pro, uname) for uname in h[1]] for pro in list_of_classes_for_iteration]
+                'headers': hdr[0],
+                'combo':  [[rgetattr(pro, uname) for uname in hdr[1]] for pro in list_of_classes_for_iteration]
         }
         )
 
