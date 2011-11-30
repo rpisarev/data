@@ -11,11 +11,9 @@ import settings
 
 def hello(request):
 	return HttpResponse('<p>1</p>')
-
-def func1(current):
-	now = datetime.datetime.now()
-        links = {
-	'Client': [u'Клиенты', '/choice/clients/'],
+def flinks():
+	return {
+        'Client': [u'Клиенты', '/choice/clients/'],
         'Project': [u'Проекты', '/choice/projects/'],
         'Domain': [u'Домены', '/choice/domains/'],
         'Site': [u'Сайты', '/choice/sites/'],
@@ -25,8 +23,9 @@ def func1(current):
         'Contact': [u'Контакты', '/choice/contactes'],
         'Cms_acc': [u'Аккаунты админки', '/choice/cms_acc'],
         'Cms': [u'Админки', '/choice/adminlists/']
-	}
-	menu = [ # Убрать костыль
+        }
+def fmenu():
+	return [
         [u'Клиенты', '/choice/clients/'],
         [u'Проекты', '/choice/projects/'],
         [u'Домены', '/choice/domains/'],
@@ -38,7 +37,6 @@ def func1(current):
         [u'Аккаунты админки', '/choice/cms_acc'],
         [u'Админки', '/choice/adminlists/']
         ]
-	return (now, links, menu, current)
 
 def names_of_classes(classname):
 	name = {
@@ -80,7 +78,7 @@ def headers_tab(what):
 
 # Статические результирующие
 def choice_stat_result_abstr_form(request, category, title):
-	now, links, menu, notlink = func1(category)
+	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), category
 	select_from, name = names_of_classes(category)
 	data_choice = {
 	'Cms': (lambda cl: [[getattr(cli, name)] for cli in cl.objects.all()])(select_from),
@@ -109,7 +107,7 @@ def clients_form(request):
 
 # Статические нерезультирующие
 def choice_stat_abstr_form(request, category):
-	now, links, menu, notlink = func1(category)
+	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), category
 	link_list={
         'Project': [[u'Выбрать все проекты', '/choice/projects/projects/'],[u'Выбрать проекты по клиенту', '/choice/projects/clients/in/']],
         'Domain': [[u'Выбрать все домены', '/choice/domains/domains/'],[u'Выбрать домены по клиенту', '/choice/domains/clients/in/'],[u'Выбрать домены по проекту', '/choice/domains/projects/in/'],[u'Выбрать все домены, которые требуется продлить в течение', '/choice/domains/domains/in'],[u'Инфомация о домене', '/choice/domains/domains/one/in']],
@@ -154,7 +152,7 @@ def cms_acc_form(request):
 #Input-формы с комбобоксами
 
 def choice_in_abstr_form(request, data, kriterij, html):
-	now, links, menu, notlink = func1(data)
+	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), data
         select_from, name = names_of_classes(kriterij)
         return render_to_response('form_choice_domains_cli_in.html',
         {
@@ -194,7 +192,7 @@ def sites_adm_in_form(request):
         return choice_in_abstr_form(request, 'Site', 'Cms', '/choice/sites/admins/')
 
 def domains_dom_in_form(request):
-        now, links, menu, notlink = func1('Domain')
+	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'Domain'
         return render_to_response('form_choice_domains_dom_in.html',
         {
                 'current_date': now,
@@ -254,7 +252,7 @@ def rgetattr(o, n):
 	return rgetattr(x, ns[1]) if len(ns)>1 else x
 
 def choice_all_abstr_form(request, length, category):
-	now, links, menu, notlink = func1(category)
+	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), category
 	select_from, name = names_of_classes(category)
 	hdr = get_headers_tables(length, category)
 	return render_to_response('form_choice_domains_domains1.html',
@@ -321,14 +319,14 @@ def recursive_iter(cl, iterator, count = 0):
         return res
 
 def choice_choice_abstr_form(request, length, category, kriterij):
-	now, links, menu, notlink = func1(category)
+	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), category
         select_from, name = names_of_classes(category)
 	class_type = 0
 	class_record = 1
 	obj = get_object_or_404(names_of_classes(kriterij)[class_type], **{names_of_classes(kriterij)[class_record]: request.POST.get('pst')} )
 	child_class = path_of_classes(category)
         path_for_parent = path_of_parent(kriterij, child_class[class_record])
-        list_of_classes_for_iteration = recursive_iter(ibj, path_for_parent)
+        list_of_classes_for_iteration = recursive_iter(obj, path_for_parent)
         hdr = get_headers_tables(length, category)
 	return render_to_response('form_choice_domains_domains1.html',
         {
@@ -342,7 +340,7 @@ def choice_choice_abstr_form(request, length, category, kriterij):
 
 
 def domains_dates_form(request):
-        now, links, menu, notlink = func1('Domain')
+	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'Domain'
         a = get_list_or_404(Domain, dns_date__lt = (datetime.datetime.now() + datetime.timedelta(weeks = int(request.POST.get('pst')))))
 
         return render_to_response('form_choice_domains_dates.html',
@@ -366,7 +364,8 @@ def domains_projects_form(request):
         return choice_choice_abstr_form(request, 'medium', 'Domain', 'Project')
 
 def domains_domian_one_form(request):
-        now, links, menu, notlink = func1('Domain')
+        now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'Domain'
+
         a = get_object_or_404(Domain, dns_url = request.POST.get('pst'))
 
         return render_to_response('form_choice_domains_domain_one.html',
@@ -391,7 +390,7 @@ def sites_domains_form(request):
         return choice_choice_abstr_form(request, 'medium', 'Site', 'Domain')
 
 def sites_sites_one_form(request):
-        now, links, menu, notlink = func1('Site')
+        now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'Site'
         a = get_object_or_404(Site, url = request.POST.get('pst'))
 
         return render_to_response('form_choice_sites_sites_one.html',
@@ -407,7 +406,7 @@ def sites_sites_one_form(request):
         )
 
 def sites_admins_form(request):
-        now, links, menu, notlink = func1('Site')
+        now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'Site'
         a = get_object_or_404(Cms, name = request.POST.get('pst'))
 
         return render_to_response('form_choice_sites_adm.html',
