@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template.loader import get_template
 from django import template
 from django.shortcuts import render_to_response
@@ -151,47 +151,24 @@ def cms_acc_form(request):
 
 def choice_in_abstr_form(request, data, kriterij, html):
 	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), data
-        select_from, name = names_of_classes(kriterij)
+        try:
+		select_from, name = names_of_classes(kriterij)
+	except ValueError:
+                raise Http404()
         return render_to_response('form_choice_domains_cli_in.html',
         {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
+               	'current_date': now,
+               	'choice_get': menu,
+               	'current': links[notlink][0],
 		'url': html,
-                'combo': [getattr(pro, name) for pro in select_from.objects.all()]
+               	'combo': [getattr(pro, name) for pro in select_from.objects.all()]
         }
+	#except ValueError:
+        #        raise Http404()
         )
 
-
 def objects_in_form(request, s1, s2):
-	return choice_in_abstr_form(request, s1, s2, '/choice/' + s1 + '/' + s2+ '/')
-
-def projects_cli_in_form(request):
-	return choice_in_abstr_form(request, 'projects', 'clients', '/choice/projects/clients/')
-
-#def domains_cli_in_form(request):
-#	return choice_in_abstr_form(request, 'domains', 'clients', '/choice/domains/clients/')
-        
-def domains_pro_in_form(request):
-	return choice_in_abstr_form(request, 'domains', 'projects', '/choice/domains/projects/')
-
-def domains_dom_one_in_form(request):
-	return choice_in_abstr_form(request, 'domains', 'domains', '/choice/domains/domains/one/')
-        
-def sites_cli_in_form(request):
-	return choice_in_abstr_form(request, 'sites', 'clients', '/choice/sites/clients/')
-
-def sites_pro_in_form(request):
-	return choice_in_abstr_form(request, 'sites', 'projects', '/choice/sites/projects/')      
-
-def sites_dom_in_form(request):
-	return choice_in_abstr_form(request, 'sites', 'domains', '/choice/sites/domains/')
-
-def sites_sites_one_in_form(request):
-	return choice_in_abstr_form(request, 'sites', 'sites', '/choice/sites/sites/one/')
-        
-def sites_adm_in_form(request):
-        return choice_in_abstr_form(request, 'sites', 'cms', '/choice/sites/admins/')
+	return choice_in_abstr_form(request, s1, s2, request.META.get('REQUEST_URI')[:-3])
 
 def domains_dom_in_form(request):
 	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'domains'
