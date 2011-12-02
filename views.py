@@ -12,6 +12,9 @@ import settings
 def all_classes():
 	return ['clients', 'projects', 'domains', 'sites', 'mails', 'websys', 'websyslist', 'contactes', 'cms', 'cmsacc']
 
+def all_one_classes():
+	return ['domains', 'sites', 'contactes', 'cmsacc']
+
 def hello(request):
 	return HttpResponse('<p>1</p>')
 def flinks():
@@ -158,7 +161,10 @@ def objects_in_form(request, category, kriterij):
                 'combo': [[1, u'1 неделя'], [2, u'2 недели'], [4, u'1 месяц'], [8, u'2 месяца']]
         	}
         	)
-	return choice_in_abstr_form(request, category, kriterij, request.META.get('REQUEST_URI')[:-3])
+	elif kriterij in all_classes() and category in all_classes():
+		return choice_in_abstr_form(request, category, kriterij, request.META.get('REQUEST_URI')[:-3])
+	else:
+		return 'Error!'
 
 # Результирующие формы
 # "Всё-формы"
@@ -222,9 +228,10 @@ def choice_all_abstr_form(request, length, category):
 		'combo':  [[rgetattr(pro, uname) for uname in hdr[1]] for pro in select_from.objects.all()]
         }
         )
+	
 
 def projects_projects_form(request):
-	return choice_all_abstr_form(request, 'long','projects')
+	return choice_all_abstr_form(request, 'short','projects')
 
 def domains_domains_form(request):
 	return choice_all_abstr_form(request, 'short','domains')
@@ -311,6 +318,15 @@ def domains_dates_form(request):
         #context_instance=RequestContext(request)
         )
 
+def objects_one_form(request, category, kriterij):
+	if kriterij in all_one_classes() and category in all_one_classes():
+		if category == kriterij:
+			return choice_choice_abstr_form(request, 'long', category, kriterij)
+		else:
+			return 'Error!'
+	else:
+		return 'Error!'
+
 def projects_clients_form(request):
 	return choice_choice_abstr_form(request, 'medium', 'projects', 'clients')
 
@@ -320,23 +336,6 @@ def domains_clients_form(request):
 def domains_projects_form(request):
         return choice_choice_abstr_form(request, 'medium', 'domains', 'projects')
 
-def domains_domian_one_form(request):
-        now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'domains'
-
-        a = get_object_or_404(Domain, dns_url = request.POST.get('pst'))
-
-        return render_to_response('form_choice_domains_domain_one.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'headers': headers_tab('dm_1'),
-                'data': a,
-                'bu': request.POST.get('pst')
-        }#,
-        #context_instance=RequestContext(request)
-        )
-
 def sites_clients_form(request):
 	return choice_choice_abstr_form(request, 'medium', 'sites', 'clients')
 
@@ -345,22 +344,6 @@ def sites_projects_form(request):
 
 def sites_domains_form(request):
         return choice_choice_abstr_form(request, 'medium', 'sites', 'domains')
-
-def sites_sites_one_form(request):
-        now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'sites'
-        a = get_object_or_404(Site, url = request.POST.get('pst'))
-
-        return render_to_response('form_choice_sites_sites_one.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'headers': headers_tab('st'),
-                'data': a,
-                'bu': request.POST.get('pst')
-        }#,
-        #context_instance=RequestContext(request)
-        )
 
 def sites_admins_form(request):
         now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'sites'
