@@ -21,8 +21,8 @@ def flinks():
         'websys': [u'Веб-системы', '/choice/websys/'],
         'websyslist': [u'Список веб-систем', '/choice/websyslist/'],
         'contactes': [u'Контакты', '/choice/contactes'],
-        'cms_acc': [u'Аккаунты админки', '/choice/cms_acc'],
-        'cms': [u'Админки', '/choice/adminlists/']
+        'cmsacc': [u'Аккаунты админки', '/choice/cmsacc'],
+        'cms': [u'Админки', '/choice/cms/']
         }
 def fmenu():
 	return [
@@ -34,8 +34,8 @@ def fmenu():
         [u'Веб-системы', '/choice/websys/'],
         [u'Список веб-систем', '/choice/websyslist/'],
         [u'Контакты', '/choice/contactes'],
-        [u'Аккаунты админки', '/choice/cms_acc'],
-        [u'Админки', '/choice/adminlists/']
+        [u'Аккаунты админки', '/choice/cmsacc'],
+        [u'Админки', '/choice/cms/']
         ]
 
 def names_of_classes(classname):
@@ -49,7 +49,7 @@ def names_of_classes(classname):
         'cms': [Cms, 'name'],
         'mails': [Mail, 'login'],
         'contactes': [Contact, 'fio'],
-        'cms_acc': [Cms_acc, 'login']
+        'cmsacc': [Cms_acc, 'login']
         }[classname]
 
 def headers_tab(what):
@@ -75,9 +75,14 @@ def headers_tab(what):
 # Статические формы
 
 # Статические результирующие
-def choice_stat_result_abstr_form(request, category, title):
+def choice_stat_result_abstr_form(request, category):
 	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), category
 	select_from, name = names_of_classes(category)
+	title = {
+	'cms': u'Админки',
+	'websyslist': u'Веб-системы',
+	'clients': u'Клиенты'
+	} [category]
 	data_choice = {
 	'cms': (lambda cl: [[getattr(cli, name)] for cli in cl.objects.all()])(select_from),
 	'websyslist': (lambda cl: [[getattr(cli, name)] for cli in cl.objects.all()])(select_from),
@@ -94,58 +99,32 @@ def choice_stat_result_abstr_form(request, category, title):
         }
         )
 
-def adminlists_form(request):
-	return choice_stat_result_abstr_form(request, 'cms', u'Админки')
-
-def websyslist_form(request):
-	return choice_stat_result_abstr_form(request, 'websyslist', u'Веб-системы')
-
-def clients_form(request):
-	return choice_stat_result_abstr_form(request, 'clients', u'Клиенты')
-
-# Статические нерезультирующие
 def choice_stat_abstr_form(request, category):
-	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), category
-	link_list={
+        now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), category
+        link_list={
         'projects': [[u'Выбрать все проекты', '/choice/projects/projects/'],[u'Выбрать проекты по клиенту', '/choice/projects/clients/in/']],
         'domains': [[u'Выбрать все домены', '/choice/domains/domains/'],[u'Выбрать домены по клиенту', '/choice/domains/clients/in/'],[u'Выбрать домены по проекту', '/choice/domains/projects/in/'],[u'Выбрать все домены, которые требуется продлить в течение', '/choice/domains/dates/in'],[u'Инфомация о домене', '/choice/domains/domains/one/in']],
-        'sites': [[u'Выбрать все сайты', '/choice/sites/sites/'],[u'Выбрать сайты по клиенту', '/choice/sites/clients/in/'],[u'Выбрать сайты по проекту', '/choice/sites/projects/in/'],[u'Выбрать сайты по домену', '/choice/sites/domains/in/'],[u'Выбрать сайты по админке', '/choice/sites/admins/in/'],[u'Инфомация о сайте', '/choice/sites/sites/one/in/']],
+        'sites': [[u'Выбрать все сайты', '/choice/sites/sites/'],[u'Выбрать сайты по клиенту', '/choice/sites/clients/in/'],[u'Выбрать сайты по проекту', '/choice/sites/projects/in/'],[u'Выбрать сайты по домену', '/choice/sites/domains/in/'],[u'Выбрать сайты по админке', '/choice/sites/cms/in/'],[u'Инфомация о сайте', '/choice/sites/sites/one/in/']],
         'mails': [[u'Выбрать все email', '/choice/mails/mails/'],[u'Выбрать email по клиенту', '/choice/mails/clients/in/'],[u'Выбрать email по проекту', '/choice/mails/projects/in/'],[u'Выбрать email по домену', '/choice/mails/domains/in/']],
         'websys': [[u'Выбрать все веб-системы', '/choice/websys/websys/'],[u'Выбрать веб-системы по клиенту', '/choice/websys/clients/in/'],[u'Выбрать веб-системы по проекту', '/choice/websys/projects/in/']],
-        'websyslist': [[u'Список веб-систем', '/choice/websyslist/']],
         'contactes': [[u'Контакты', '/choice/contactes']],
-        'cms_acc': [[u'Аккаунты админки', '/choice/cms_acc']],
-        'cms': [[u'Админки', '/choice/adminlists/']]
-	}
+        'cmsacc': [[u'Аккаунты админки', '/choice/cmsacc']],
+        }
         return render_to_response('form_choice_domains.html',
         {
                 'current_date': now,
                 'choice_get': menu,
-		'links': link_list[category],
+                'links': link_list[category],
                 'current': links[notlink][0]
         }
-	)
+        )
 
-def projects_form(request):
-        return choice_stat_abstr_form(request, 'projects')
-
-def domains_form(request):
-	return choice_stat_abstr_form(request, 'domains')
-
-def sites_form(request):
-        return choice_stat_abstr_form(request, 'sites')
-
-def mails_form(request):
-        return choice_stat_abstr_form(request, 'mails')
-
-def websys_form(request):
-        return choice_stat_abstr_form(request, 'websystem')
-
-def contactes_form(request):
-        return choice_stat_abstr_form(request, 'contactes')
-
-def cms_acc_form(request):
-        return choice_stat_abstr_form(request, 'cms_acc')
+def objects_form(request, category):
+	if category in ['cms', 'websyslist', 'clients']:
+		return choice_stat_result_abstr_form(request, category)
+	if category in ['projects', 'domains', 'sites', 'mails', 'websys', 'contactes', 'cmsacc']:
+		return choice_stat_abstr_form(request, category)
+	return 'Error!'
 
 #Input-формы с комбобоксами
 
@@ -163,12 +142,10 @@ def choice_in_abstr_form(request, data, kriterij, html):
 		'url': html,
                	'combo': [getattr(pro, name) for pro in select_from.objects.all()]
         }
-	#except ValueError:
-        #        raise Http404()
         )
 
-def objects_in_form(request, s1, s2):
-	return choice_in_abstr_form(request, s1, s2, request.META.get('REQUEST_URI')[:-3])
+def objects_in_form(request, category, kriterij):
+	return choice_in_abstr_form(request, category, kriterij, request.META.get('REQUEST_URI')[:-3])
 
 def domains_dom_in_form(request):
 	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'domains'
@@ -193,7 +170,7 @@ def get_headers_tables(leng, category):
         'websystem': [[u'Клиент', u'Проект', u'Название службы'],['project.client', 'project', 'websystems_list.name']],
 #        'Websystem_list': [[u'Клиент', u'Проект'],['client', 'name']],
         'contactes': [[u'Клиент', u'Проект', u'Сайт', u'ФИО', u'Должность', u'Телефон', u'Эл. адрес'],['site.domain.project.client', 'site.domain.project', 'site', 'fio', 'function', 'phone1', 'mail1']],
-        'cms_acc': [[u'Клиент', u'Проект', u'Сайт', u'Имя', u'Логин', u'Эл. адрес'],['site.domain.project.client', 'site.domain.project', 'site', 'name', 'login', 'mail']],
+        'cmsacc': [[u'Клиент', u'Проект', u'Сайт', u'Имя', u'Логин', u'Эл. адрес'],['site.domain.project.client', 'site.domain.project', 'site', 'name', 'login', 'mail']],
 #        'Cms': [[u'Клиент', u'Проект'],['client', 'name']]
 	}
 	md = {
@@ -204,7 +181,7 @@ def get_headers_tables(leng, category):
         'websystem': [[u'Клиент', u'Проект', u'Название службы', u'Адрес доступа', u'Тип авторизации', u'Логин', u'Пароль'],['project.client', 'project', 'websystems_list.name', 'websystems_list.url', 'web_login_type', 'web_login_name', 'web_pass']],
 #        'Websystem_list': [[u'Клиент', u'Проект'],['client', 'name']],
         'contactes': [[u'Клиент', u'Проект', u'Сайт', u'ФИО', u'Должность', u'Телефон 1', u'Телефон 2', u'Телефон 3', u'Эл. адрес 1', u'Эл. адрес 2'],['site.domain.project.client', 'site.domain.project', 'site', 'fio', 'function', 'phone1', 'phone2', 'phone3', 'mail1', 'mail2']],
-        'cms_acc': [[u'Клиент', u'Проект', u'Сайт', u'Имя', u'Логин', u'Пароль', u'Эл. адрес', u'OpenID'],['site.domain.project.client', 'site.domain.project', 'site', 'name', 'login', 'passwd', 'mail', 'openid']],
+        'cmsacc': [[u'Клиент', u'Проект', u'Сайт', u'Имя', u'Логин', u'Пароль', u'Эл. адрес', u'OpenID'],['site.domain.project.client', 'site.domain.project', 'site', 'name', 'login', 'passwd', 'mail', 'openid']],
  #       'Cms': [[u'Клиент', u'Проект'],['client', 'name']]
         }
 	lg = {
@@ -215,7 +192,7 @@ def get_headers_tables(leng, category):
         'websystem': [[u'Клиент', u'Проект', u'Название службы', u'Адрес доступа', u'Тип авторизации', u'Логин', u'Пароль'],['project.client', 'project', 'websystems_list.name', 'websystems_list.url', 'web_login_type', 'web_login_name', 'web_pass']],
 #        'Websystem_list': [[u'Клиент', u'Проект'],['client', 'name']],
         'contactes': [[u'Клиент', u'Проект', u'Сайт', u'ФИО', u'Должность', u'Телефон 1', u'Телефон 2', u'Телефон 3', u'Эл. адрес 1', u'Эл. адрес 2'],['site.domain.project.client', 'site.domain.project', 'site', 'fio', 'function', 'phone1', 'phone2', 'phone3', 'mail1', 'mail2']],
-        'cms_acc': [[u'Клиент', u'Проект', u'Сайт', u'Имя', u'Логин', u'Пароль', u'Эл. адрес', u'OpenID'],['site.domain.project.client', 'site.domain.project', 'site', 'name', 'login', 'passwd', 'mail', 'openid']],
+        'cmsacc': [[u'Клиент', u'Проект', u'Сайт', u'Имя', u'Логин', u'Пароль', u'Эл. адрес', u'OpenID'],['site.domain.project.client', 'site.domain.project', 'site', 'name', 'login', 'passwd', 'mail', 'openid']],
  #       'Cms': [[u'Клиент', u'Проект'],['client', 'name']]
 	}
 	head = {
@@ -263,7 +240,7 @@ def contactes_contactes_form(request):
         return choice_all_abstr_form(request, 'short','contactes')
 
 def cms_acc_cms_acc_form(request):
-        return choice_all_abstr_form(request, 'short','cms_acc')
+        return choice_all_abstr_form(request, 'short','cmsacc')
 
 # Результирующие "избирательные" формы
 
@@ -275,24 +252,17 @@ def path_of_classes(classname):
         'websystem': ['project.client', ['projects', 'websystems']],
         'mails': ['domain.project.client', ['projects', 'domains', 'mails']],
         'contactes': ['site.domain.project.client', ['projects', 'domains', 'sites', 'conacts']],
-        'cms_acc': ['site.domain.project.client', ['projects', 'domains', 'sites', 'cms_accnts']]
+        'cmsacc': ['site.domain.project.client', ['projects', 'domains', 'sites', 'cms_accnts']]
         }[classname]
 
 def path_of_parent(classname, a):
-	#name = {
-	#'client': 0,
-        #'project': 1,
-        #'domain': 2,
-        #'site': 3,
-	#}
-	#return a[name[classname]:]
-	return a[
-	{
-        'clients': 0,
+	name = {
+	'clients': 0,
         'projects': 1,
         'domains': 2,
         'sites': 3,
-        }[classname]:]
+	}
+	return a[name[classname]:]
 
 def recursive_iter(cl, iterator, count = 0):
         if len(iterator) == 0:
