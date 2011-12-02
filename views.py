@@ -9,6 +9,9 @@ from django.template.context import RequestContext
 import datetime, unicodedata
 import settings
 
+def all_classes():
+	return ['clients', 'projects', 'domains', 'sites', 'mails', 'websys', 'websyslist', 'contactes', 'cms', 'cmsacc']
+
 def hello(request):
 	return HttpResponse('<p>1</p>')
 def flinks():
