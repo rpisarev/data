@@ -5,11 +5,7 @@
 {% block content %}
 <div>
 {% for names in choice_get %}
-	{% ifequal names.0 current %}
-		<div class="head_btn">{{ names.0 }}</div>
-	{% else %}
 		<div class="head_btn"><a href="{{ names.1 }}">{{ names.0 }}</a></div>
-	{% endifequal %}
 {% endfor %}
 </div>
 <br clear="both" /> 
