@@ -145,18 +145,17 @@ def choice_in_abstr_form(request, data, kriterij, html):
         )
 
 def objects_in_form(request, category, kriterij):
-	return choice_in_abstr_form(request, category, kriterij, request.META.get('REQUEST_URI')[:-3])
-
-def domains_dom_in_form(request):
-	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'domains'
-        return render_to_response('form_choice_domains_dom_in.html',
-        {
+	if kriterij in ['dates'] and category == 'domains':
+		now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'domains'
+		return render_to_response('form_choice_domains_dom_in.html',
+	        {
                 'current_date': now,
                 'choice_get': menu,
                 'current': links[notlink][0],
                 'combo': [[1, u'1 неделя'], [2, u'2 недели'], [4, u'1 месяц'], [8, u'2 месяца']]
-        }
-        )
+        	}
+        	)
+	return choice_in_abstr_form(request, category, kriterij, request.META.get('REQUEST_URI')[:-3])
 
 # Результирующие формы
 # "Всё-формы"
