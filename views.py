@@ -236,8 +236,6 @@ def choice_all_abstr_form(request, length, category):
         }
         )
 	
-
-
 def objects_tab_form(request, category, kriterij):
 	if category in all_in_classes() and kriterij in all_classes():
 		if category == kriterij:
@@ -246,29 +244,6 @@ def objects_tab_form(request, category, kriterij):
 			return choice_choice_abstr_form(request, 'medium', category, kriterij)
 	else:
 		raise Http404()
-
-
-
-#def projects_projects_form(request):
-#	return choice_all_abstr_form(request, 'short','projects')
-
-#def domains_domains_form(request):
-#	return choice_all_abstr_form(request, 'short','domains')
-
-def sites_sites_form(request):
-	return choice_all_abstr_form(request, 'short','sites')
-
-def mails_mails_form(request):
-	return choice_all_abstr_form(request, 'short','mails')
-
-def websys_websys_form(request):
-        return choice_all_abstr_form(request, 'short','websystem')
-
-def contactes_contactes_form(request):
-        return choice_all_abstr_form(request, 'short','contactes')
-
-def cms_acc_cms_acc_form(request):
-        return choice_all_abstr_form(request, 'short','cmsacc')
 
 # Результирующие "избирательные" формы
 
@@ -346,24 +321,6 @@ def objects_one_form(request, category, kriterij):
 	else:
 		raise Http404()
 
-def projects_clients_form(request):
-	return choice_choice_abstr_form(request, 'medium', 'projects', 'clients')
-
-def domains_clients_form(request):
-	return choice_choice_abstr_form(request, 'medium', 'domains', 'clients')
-
-def domains_projects_form(request):
-        return choice_choice_abstr_form(request, 'medium', 'domains', 'projects')
-
-def sites_clients_form(request):
-	return choice_choice_abstr_form(request, 'medium', 'sites', 'clients')
-
-def sites_projects_form(request):
-        return choice_choice_abstr_form(request, 'medium', 'sites', 'projects')
-
-def sites_domains_form(request):
-        return choice_choice_abstr_form(request, 'medium', 'sites', 'domains')
-
 def sites_admins_form(request):
         now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'sites'
         a = get_object_or_404(Cms, name = request.POST.get('pst'))
@@ -379,10 +336,6 @@ def sites_admins_form(request):
         }#,
         #context_instance=RequestContext(request)
         )
-
-def mails_domains_form(request):
-        return choice_choice_abstr_form(request, 'medium', 'mails', 'domains')
-
 
 def hours_ahead(request, offset):
 	try:
