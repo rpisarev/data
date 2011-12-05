@@ -15,7 +15,14 @@ def all_classes():
 def all_one_classes():
 	return ['domains', 'sites', 'contactes', 'cmsacc']
 
+def all_in_classes():
+	return ['projects', 'domains', 'sites', 'mails', 'websys', 'contactes', 'cmsacc']
+
+def all_krit_in_classes():
+        return ['clients', 'projects', 'domains', 'sites', 'mails', 'websys', 'websyslist', 'contactes', 'cms', 'cmsacc']
+
 def hello(request):
+#	raise Http404() 
 	return HttpResponse('<p>1</p>')
 def flinks():
 	return {
@@ -130,7 +137,7 @@ def objects_form(request, category):
 		return choice_stat_result_abstr_form(request, category)
 	if category in ['projects', 'domains', 'sites', 'mails', 'websys', 'contactes', 'cmsacc']:
 		return choice_stat_abstr_form(request, category)
-	return 'Error!'
+	raise Http404()
 
 #Input-формы с комбобоксами
 
@@ -161,10 +168,10 @@ def objects_in_form(request, category, kriterij):
                 'combo': [[1, u'1 неделя'], [2, u'2 недели'], [4, u'1 месяц'], [8, u'2 месяца']]
         	}
         	)
-	elif kriterij in all_classes() and category in all_classes():
+	elif kriterij in all_krit_in_classes() and category in all_in_classes():
 		return choice_in_abstr_form(request, category, kriterij, request.META.get('REQUEST_URI')[:-3])
 	else:
-		return 'Error!'
+		raise Http404()
 
 # Результирующие формы
 # "Всё-формы"
@@ -273,7 +280,7 @@ def path_of_parent(classname, a):
 	}
 	return a[name[classname]:]
 
-def recursive_iter(cl, iterator, count = 0):
+def recursive_iter(cl, iterator):
         if len(iterator) == 0:
                 return [cl]
         res = []
@@ -321,11 +328,11 @@ def domains_dates_form(request):
 def objects_one_form(request, category, kriterij):
 	if kriterij in all_one_classes() and category in all_one_classes():
 		if category == kriterij:
-			return choice_choice_abstr_form(request, 'long', category, kriterij)
+			return choice_choice_abstr_form(request, 'long', category, category)
 		else:
-			return 'Error!'
+			raise Http404()
 	else:
-		return 'Error!'
+		raise Http404()
 
 def projects_clients_form(request):
 	return choice_choice_abstr_form(request, 'medium', 'projects', 'clients')
