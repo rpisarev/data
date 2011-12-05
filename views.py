@@ -58,7 +58,7 @@ def names_of_classes(classname):
         'domains': [Domain, 'dns_url'],
         'sites': [Site, 'url'],
         'websyslist': [Websystem_list, 'name'],
-        'websys': [Websystem_list, 'web_login_name'],
+        'websys': [Websystem, 'web_login_name'],
         'cms': [Cms, 'name'],
         'mails': [Mail, 'login'],
         'contactes': [Contact, 'fio'],
@@ -252,7 +252,7 @@ def path_of_classes(classname):
         'projects': ['client', ['projects']],
         'domains': ['project.client', ['projects', 'domains']],
         'sites': ['domain.project.client', ['projects', 'domains', 'sites']],
-        'websystem': ['project.client', ['projects', 'websystems']],
+        'websys': ['project.client', ['projects', 'websystems']],
         'mails': ['domain.project.client', ['projects', 'domains', 'mails']],
         'contactes': ['site.domain.project.client', ['projects', 'domains', 'sites', 'conacts']],
         'cmsacc': ['site.domain.project.client', ['projects', 'domains', 'sites', 'cms_accnts']]
