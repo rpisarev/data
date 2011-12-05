@@ -65,26 +65,6 @@ def names_of_classes(classname):
         'cmsacc': [Cms_acc, 'login']
         }[classname]
 
-def headers_tab(what):
-	return  {
-        'cl_cl': [u'Клиент'],
-        'pr_pr': [u'Клиент', u'Проект'],
-        'pr_cl': [u'Проект'],
-        'dm_cl': [u'Проект', u'Домены', u'Дата окончания'],
-        'dm': [u'Клиент', u'Проект', u'Домен', u'Сервис-код', u'Дата окончания'],
-        'dm_1': [u'Клиент', u'Проект', u'Домены', u'Сервис-код', u'Логин к управлению', u'Пароль', u'Дата окончания', u'Владелец'],
-        'st': [u'Клиент', u'Проект', u'Домен', u'Адрес сайта', u'Тестовый сайт?'],
-    'st_ad': [u'Клиент', u'Проект', u'Домен', u'Адрес сайта', u'Тип админкм', u'Тестовый сайт?'],
-    'st_cl': [u'Проект', u'Домен', u'Адрес сайта', u'Тестовый сайт?'],
-        'ml_cl': [u'Полное имя', u'Электронный адрес'],
-    'ml_cli': [u'Клиент', u'Проект', u'Полное имя', u'Электронный адрес'],
-        'ws_cl': [],
-        'ws_list': [u'Тип веб-системы', u'URL веб-системы'],
-        'cn_cl': [],
-        'ad_cl': [],
-        'ad_list': [u'Название админки', u'Кодовое название', u'Версия']
-        }[what]
-
 # Статические формы
 
 # Статические результирующие
@@ -248,7 +228,7 @@ def objects_tab_form(request, category, kriterij):
                 		'choice_get': menu,
                 		'current': links[notlink][0],
                 		'data': a,
-                		'headers': headers_tab('dm'),
+                		'headers': get_headers_tables('short', category)[0],
                 		'bu': request.POST.get('pst')
         		}#,
         		#context_instance=RequestContext(request)
