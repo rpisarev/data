@@ -279,6 +279,7 @@ def path_of_parent(classname, a):
         'projects': 1,
         'domains': 2,
         'sites': 3,
+	'cmsacc': 3,
 	}
 	return a[name[classname]:]
 
@@ -297,8 +298,11 @@ def choice_choice_abstr_form(request, length, category, kriterij):
 	class_record = 1
 	obj = get_object_or_404(names_of_classes(kriterij)[class_type], **{names_of_classes(kriterij)[class_record]: request.POST.get('pst')} )
 	child_class = path_of_classes(category)
-        path_for_parent = path_of_parent(kriterij, child_class[class_record])
-        list_of_classes_for_iteration = recursive_iter(obj, path_for_parent)
+	if kriterij == 'cms':
+		list_of_classes_for_iteration = obj.sites_cms.all()
+	else:
+        	path_for_parent = path_of_parent(kriterij, child_class[class_record])
+        	list_of_classes_for_iteration = recursive_iter(obj, path_for_parent)
         hdr = get_headers_tables(length, category)
 	return render_to_response('form_choice_domains_domains1.html',
         {
@@ -318,22 +322,6 @@ def objects_one_form(request, category, kriterij):
 			raise Http404()
 	else:
 		raise Http404()
-
-def sites_admins_form(request):
-        now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'sites'
-        a = get_object_or_404(Cms, name = request.POST.get('pst'))
-
-        return render_to_response('form_choice_sites_adm.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'headers': headers_tab('st'),
-                'data': a,
-                'bu': request.POST.get('pst')
-        }#,
-        #context_instance=RequestContext(request)
-        )
 
 def hours_ahead(request, offset):
 	try:
