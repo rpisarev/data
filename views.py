@@ -237,8 +237,23 @@ def choice_all_abstr_form(request, length, category):
         )
 	
 def objects_tab_form(request, category, kriterij):
-	if category in all_in_classes() and kriterij in all_classes():
-		if category == kriterij:
+	if category in all_in_classes() and kriterij in (all_classes() + ['dates']):
+		if kriterij in ['dates'] and category == 'domains':
+			now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'domains'
+        		a = get_list_or_404(Domain, dns_date__lt = (datetime.datetime.now() + datetime.timedelta(weeks = int(request.POST.get('pst')))))
+
+        		return render_to_response('form_choice_domains_dates.html',
+        		{
+                		'current_date': now,
+                		'choice_get': menu,
+                		'current': links[notlink][0],
+                		'data': a,
+                		'headers': headers_tab('dm'),
+                		'bu': request.POST.get('pst')
+        		}#,
+        		#context_instance=RequestContext(request)
+        		)
+		elif category == kriterij:
 			return choice_all_abstr_form(request, 'short', category)
 		else:
 			return choice_choice_abstr_form(request, 'medium', category, kriterij)
@@ -296,21 +311,21 @@ def choice_choice_abstr_form(request, length, category, kriterij):
         )
 
 
-def domains_dates_form(request):
-	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'domains'
-        a = get_list_or_404(Domain, dns_date__lt = (datetime.datetime.now() + datetime.timedelta(weeks = int(request.POST.get('pst')))))
+#def domains_dates_form(request):
+#	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 'domains'
+#        a = get_list_or_404(Domain, dns_date__lt = (datetime.datetime.now() + datetime.timedelta(weeks = int(request.POST.get('pst')))))
 
-        return render_to_response('form_choice_domains_dates.html',
-        {
-                'current_date': now,
-                'choice_get': menu,
-                'current': links[notlink][0],
-                'data': a,
-		'headers': headers_tab('dm'),
-                'bu': request.POST.get('pst')
-        }#,
-        #context_instance=RequestContext(request)
-        )
+#        return render_to_response('form_choice_domains_dates.html',
+#        {
+#                'current_date': now,
+#                'choice_get': menu,
+#                'current': links[notlink][0],
+#                'data': a,
+#		'headers': headers_tab('dm'),
+#                'bu': request.POST.get('pst')
+#        }#,
+#        #context_instance=RequestContext(request)
+#        )
 
 def objects_one_form(request, category, kriterij):
 	if kriterij in all_one_classes() and category in all_one_classes():
