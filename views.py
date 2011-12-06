@@ -281,7 +281,7 @@ def choice_choice_abstr_form(request, length, category, kriterij):
 	child_class = path_of_classes(category)
 	if category == 'sites' and kriterij == 'cms':
 		list_of_classes_for_iteration = obj.sites_cms.all()
-	elif category == 'websys' kriterij == 'websyslist':
+	elif category == 'websys' and kriterij == 'websyslist':
 		list_of_classes_for_iteration = obj.ws_lists.all()
 	else:
         	path_for_parent = path_of_parent(kriterij, child_class[class_record])
