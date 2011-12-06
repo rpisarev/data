@@ -100,8 +100,8 @@ def choice_stat_abstr_form(request, category):
         'sites': [[u'Выбрать все сайты', '/choice/sites/sites/'],[u'Выбрать сайты по клиенту', '/choice/sites/clients/in/'],[u'Выбрать сайты по проекту', '/choice/sites/projects/in/'],[u'Выбрать сайты по домену', '/choice/sites/domains/in/'],[u'Выбрать сайты по админке', '/choice/sites/cms/in/'],[u'Инфомация о сайте', '/choice/sites/sites/one/in/']],
         'mails': [[u'Выбрать все email', '/choice/mails/mails/'],[u'Выбрать email по клиенту', '/choice/mails/clients/in/'],[u'Выбрать email по проекту', '/choice/mails/projects/in/'],[u'Выбрать email по домену', '/choice/mails/domains/in/']],
         'websys': [[u'Выбрать все веб-системы', '/choice/websys/websys/'],[u'Выбрать веб-системы по клиенту', '/choice/websys/clients/in/'],[u'Выбрать веб-системы по проекту', '/choice/websys/projects/in/'], [u'Выбрать веб-системы по типу', '/choice/websys/websyslist/in/']],
-        'contactes': [[u'Контакты', '/choice/contactes']],
-        'cmsacc': [[u'Аккаунты админки', '/choice/cmsacc']],
+        'contactes': [[u'Выбрать все контакты', '/choice/contactes/contactes/'],[u'Выбрать контакты по клиенту', '/choice/contactes/clients/in/'],[u'Выбрать контакты по проекту', '/choice/contactes/projects/in/'],[u'Выбрать контакты по домену', '/choice/contactes/domains/in/'],[u'Выбрать контакты по сайту', '/choice/contactes/sites/in/'],[u'Инфомация о контакте', '/choice/contactes/contactes/one/in/']],
+        'cmsacc': [[u'Выбрать все аккаунты админки', '/choice/cmsacc/cmsacc/'],[u'Выбрать аккаунты админки по клиенту', '/choice/cmsacc/clients/in/'],[u'Выбрать аккаунты админки по проекту', '/choice/cmsacc/projects/in/'],[u'Выбрать аккаунты админки по домену', '/choice/cmsacc/domains/in/'],[u'Выбрать аккаунты админки по сайту', '/choice/cmsacc/sites/in/'],[u'Инфомация об аккаунты админки', '/choice/cmsacc/cmsacc/one/in/']],
         }
         return render_to_response('form_choice_domains.html',
         {
