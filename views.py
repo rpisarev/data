@@ -99,7 +99,7 @@ def choice_stat_abstr_form(request, category):
         'domains': [[u'Выбрать все домены', '/choice/domains/domains/'],[u'Выбрать домены по клиенту', '/choice/domains/clients/in/'],[u'Выбрать домены по проекту', '/choice/domains/projects/in/'],[u'Выбрать все домены, которые требуется продлить в течение', '/choice/domains/dates/in'],[u'Инфомация о домене', '/choice/domains/domains/one/in']],
         'sites': [[u'Выбрать все сайты', '/choice/sites/sites/'],[u'Выбрать сайты по клиенту', '/choice/sites/clients/in/'],[u'Выбрать сайты по проекту', '/choice/sites/projects/in/'],[u'Выбрать сайты по домену', '/choice/sites/domains/in/'],[u'Выбрать сайты по админке', '/choice/sites/cms/in/'],[u'Инфомация о сайте', '/choice/sites/sites/one/in/']],
         'mails': [[u'Выбрать все email', '/choice/mails/mails/'],[u'Выбрать email по клиенту', '/choice/mails/clients/in/'],[u'Выбрать email по проекту', '/choice/mails/projects/in/'],[u'Выбрать email по домену', '/choice/mails/domains/in/']],
-        'websys': [[u'Выбрать все веб-системы', '/choice/websys/websys/'],[u'Выбрать веб-системы по клиенту', '/choice/websys/clients/in/'],[u'Выбрать веб-системы по проекту', '/choice/websys/projects/in/']],
+        'websys': [[u'Выбрать все веб-системы', '/choice/websys/websys/'],[u'Выбрать веб-системы по клиенту', '/choice/websys/clients/in/'],[u'Выбрать веб-системы по проекту', '/choice/websys/projects/in/'], [u'Выбрать веб-системы по типу', '/choice/websys/websyslist/in/']],
         'contactes': [[u'Контакты', '/choice/contactes']],
         'cmsacc': [[u'Аккаунты админки', '/choice/cmsacc']],
         }
@@ -247,7 +247,7 @@ def path_of_classes(classname):
         'projects': ['client', ['projects']],
         'domains': ['project.client', ['projects', 'domains']],
         'sites': ['domain.project.client', ['projects', 'domains', 'sites']],
-        'websys': ['project.client', ['projects', 'websystems']],
+        'websys': ['project.client', ['projects', 'websyslist']],
         'mails': ['domain.project.client', ['projects', 'domains', 'mails']],
         'contactes': ['site.domain.project.client', ['projects', 'domains', 'sites', 'conacts']],
         'cmsacc': ['site.domain.project.client', ['projects', 'domains', 'sites', 'cms_accnts']]
@@ -260,6 +260,7 @@ def path_of_parent(classname, a):
         'domains': 2,
         'sites': 3,
 	'cmsacc': 3,
+	'websys':2,
 	}
 	return a[name[classname]:]
 
@@ -280,6 +281,8 @@ def choice_choice_abstr_form(request, length, category, kriterij):
 	child_class = path_of_classes(category)
 	if kriterij == 'cms':
 		list_of_classes_for_iteration = obj.sites_cms.all()
+	elif kriterij == 'websyslist':
+		list_of_classes_for_iteration = obj.ws_lists.all()
 	else:
         	path_for_parent = path_of_parent(kriterij, child_class[class_record])
         	list_of_classes_for_iteration = recursive_iter(obj, path_for_parent)
