@@ -251,7 +251,7 @@ def path_of_classes(classname):
         'projects': ['client', ['projects']],
         'domains': ['project.client', ['projects', 'domains']],
         'sites': ['domain.project.client', ['projects', 'domains', 'sites']],
-        'websys': ['project.client', ['projects', 'websyslist']],
+        'websys': ['project.client', ['projects', 'websystems']],
         'mails': ['domain.project.client', ['projects', 'domains', 'mails']],
         'contactes': ['site.domain.project.client', ['projects', 'domains', 'sites', 'conacts']],
         'cmsacc': ['site.domain.project.client', ['projects', 'domains', 'sites', 'cms_accnts']]
