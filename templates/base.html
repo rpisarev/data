@@ -2,32 +2,7 @@
 <html lang="en">
 <head>
     <title>{% block title %}{% endblock %}</title>
-	<style type="text/css">
-   		.layer1 {
-    	float: left; /* Обтекание по правому краю */
-    	background: #fc0;  /* Цвет фона */
-    	border: 1px solid black;  /* Параметры рамки */
-    	padding: 10px;  /* Поля вокруг текста */
-    	margin-right: 20px;  /* Отступ справа */
-/*    	width: 40%;  Ширина блока */
-   	}
-		.layer2{
-        float: left;
-        }
-        .head_btn{
-            font-size: 1.2em;
-            color: #888;
-            margin: 0px;
-            display: inline-block;
-            margin-right: 10px;
-            text-decoration: underline;
-            }
-        .head_btn:active{
-            color: #8F8;
-            text-decoration: none;
-        }
-
-	</style>
+    <link href="/media/css/data_main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     {% block content %}{% endblock %}

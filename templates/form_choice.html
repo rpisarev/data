@@ -3,15 +3,23 @@
 {% block title %}Данные: {{ current }}{% endblock %}
 
 {% block content %}
-<div>
+<div id="nav">
 {% for names in choice_get %}
 	{% ifequal names.0 current %}
-		<div class="head_btn"><a href="{{ names.1 }}" >{{ names.0 }}</a></div>
+		<div class="head_btn active"><a href="{{ names.1 }}" >{{ names.0 }}</a></div>
 	{% else %}
 		<div class="head_btn"><a href="{{ names.1 }}">{{ names.0 }}</a></div>
 	{% endifequal %}
 {% endfor %}
 </div>
-<br clear="both" /> 
+
+
+<ul id="sub_nav">
+    {% for k in links %}
+        <li> <a href="{{k.1}}" >{{ k.0}}</a></li>
+    {% endfor %}
+</ul>
+
+
 {% block results %}{% endblock %}
 {% endblock %}

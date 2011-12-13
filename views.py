@@ -92,9 +92,8 @@ def choice_stat_result_abstr_form(request, category):
         }
         )
 
-def choice_stat_abstr_form(request, category):
-        now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), category
-        link_list={
+def link_list():
+	return {
         'projects': [[u'Выбрать все проекты', '/choice/projects/projects/'],[u'Выбрать проекты по клиенту', '/choice/projects/clients/in/']],
         'domains': [[u'Выбрать все домены', '/choice/domains/domains/'],[u'Выбрать домены по клиенту', '/choice/domains/clients/in/'],[u'Выбрать домены по проекту', '/choice/domains/projects/in/'],[u'Выбрать все домены, которые требуется продлить в течение', '/choice/domains/dates/in'],[u'Инфомация о домене', '/choice/domains/domains/one/in']],
         'sites': [[u'Выбрать все сайты', '/choice/sites/sites/'],[u'Выбрать сайты по клиенту', '/choice/sites/clients/in/'],[u'Выбрать сайты по проекту', '/choice/sites/projects/in/'],[u'Выбрать сайты по домену', '/choice/sites/domains/in/'],[u'Выбрать сайты по админке', '/choice/sites/cms/in/'],[u'Инфомация о сайте', '/choice/sites/sites/one/in/']],
@@ -103,11 +102,23 @@ def choice_stat_abstr_form(request, category):
         'contactes': [[u'Выбрать все контакты', '/choice/contactes/contactes/'],[u'Выбрать контакты по клиенту', '/choice/contactes/clients/in/'],[u'Выбрать контакты по проекту', '/choice/contactes/projects/in/'],[u'Выбрать контакты по домену', '/choice/contactes/domains/in/'],[u'Выбрать контакты по сайту', '/choice/contactes/sites/in/'],[u'Инфомация о контакте', '/choice/contactes/contactes/one/in/']],
         'cmsacc': [[u'Выбрать все аккаунты админки', '/choice/cmsacc/cmsacc/'],[u'Выбрать аккаунты админки по клиенту', '/choice/cmsacc/clients/in/'],[u'Выбрать аккаунты админки по проекту', '/choice/cmsacc/projects/in/'],[u'Выбрать аккаунты админки по домену', '/choice/cmsacc/domains/in/'],[u'Выбрать аккаунты админки по сайту', '/choice/cmsacc/sites/in/'],[u'Инфомация об аккаунты админки', '/choice/cmsacc/cmsacc/one/in/']],
         }
+
+def choice_stat_abstr_form(request, category):
+        now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), category
+        link_lists = link_list() #{
+        #'projects': [[u'Выбрать все проекты', '/choice/projects/projects/'],[u'Выбрать проекты по клиенту', '/choice/projects/clients/in/']],
+        #'domains': [[u'Выбрать все домены', '/choice/domains/domains/'],[u'Выбрать домены по клиенту', '/choice/domains/clients/in/'],[u'Выбрать домены по проекту', '/choice/domains/projects/in/'],[u'Выбрать все домены, которые требуется продлить в течение', '/choice/domains/dates/in'],[u'Инфомация о домене', '/choice/domains/domains/one/in']],
+        #'sites': [[u'Выбрать все сайты', '/choice/sites/sites/'],[u'Выбрать сайты по клиенту', '/choice/sites/clients/in/'],[u'Выбрать сайты по проекту', '/choice/sites/projects/in/'],[u'Выбрать сайты по домену', '/choice/sites/domains/in/'],[u'Выбрать сайты по админке', '/choice/sites/cms/in/'],[u'Инфомация о сайте', '/choice/sites/sites/one/in/']],
+        #'mails': [[u'Выбрать все email', '/choice/mails/mails/'],[u'Выбрать email по клиенту', '/choice/mails/clients/in/'],[u'Выбрать email по проекту', '/choice/mails/projects/in/'],[u'Выбрать email по домену', '/choice/mails/domains/in/']],
+        #'websys': [[u'Выбрать все веб-системы', '/choice/websys/websys/'],[u'Выбрать веб-системы по клиенту', '/choice/websys/clients/in/'],[u'Выбрать веб-системы по проекту', '/choice/websys/projects/in/'], [u'Выбрать веб-системы по типу', '/choice/websys/websyslist/in/']],
+        #'contactes': [[u'Выбрать все контакты', '/choice/contactes/contactes/'],[u'Выбрать контакты по клиенту', '/choice/contactes/clients/in/'],[u'Выбрать контакты по проекту', '/choice/contactes/projects/in/'],[u'Выбрать контакты по домену', '/choice/contactes/domains/in/'],[u'Выбрать контакты по сайту', '/choice/contactes/sites/in/'],[u'Инфомация о контакте', '/choice/contactes/contactes/one/in/']],
+        #'cmsacc': [[u'Выбрать все аккаунты админки', '/choice/cmsacc/cmsacc/'],[u'Выбрать аккаунты админки по клиенту', '/choice/cmsacc/clients/in/'],[u'Выбрать аккаунты админки по проекту', '/choice/cmsacc/projects/in/'],[u'Выбрать аккаунты админки по домену', '/choice/cmsacc/domains/in/'],[u'Выбрать аккаунты админки по сайту', '/choice/cmsacc/sites/in/'],[u'Инфомация об аккаунты админки', '/choice/cmsacc/cmsacc/one/in/']],
+        #}
         return render_to_response('form_choice_domains.html',
         {
                 'current_date': now,
                 'choice_get': menu,
-                'links': link_list[category],
+                'links': link_lists[category],
                 'current': links[notlink][0]
         }
         )
@@ -136,6 +147,7 @@ def choice_in_abstr_form(request, data, kriterij, html):
                	'current_date': now,
                	'choice_get': menu,
                	'current': links[notlink][0],
+#		'links': link_list()[category],
 		'url': html,
                	'combo': [getattr(pro, name) for pro in select_from.objects.all()]
         }
@@ -148,6 +160,7 @@ def objects_in_form(request, category, kriterij):
 	        {
                 'current_date': now,
                 'choice_get': menu,
+		'links': link_list()[category],
                 'current': links[notlink][0],
                 'combo': [[1, u'1 неделя'], [2, u'2 недели'], [4, u'1 месяц'], [8, u'2 месяца']]
         	}
@@ -215,6 +228,7 @@ def choice_all_abstr_form(request, length, category):
                 'current_date': now,
                 'choice_get': menu,
                 'current': links[notlink][0],
+		'links': link_list()[category],
                 'headers': hdr[0],
 		'combo':  [[rgetattr(pro, uname) for uname in hdr[1]] for pro in select_from.objects.all()]
         }
@@ -232,6 +246,7 @@ def objects_tab_form(request, category, kriterij):
                 		'choice_get': menu,
                 		'current': links[notlink][0],
                 		'data': a,
+				'links': link_list()[category],
                 		'headers': get_headers_tables('short', category)[0],
                 		'bu': request.POST.get('pst')
         		}#,
@@ -298,6 +313,7 @@ def choice_choice_abstr_form(request, length, category, kriterij):
                 'choice_get': menu,
                 'current': links[notlink][0],
                 'headers': hdr[0],
+		'links': link_list()[category],
                 'combo':  [[rgetattr(pro, uname) for uname in hdr[1]] for pro in list_of_classes_for_iteration]
         }
         )

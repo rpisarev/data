@@ -1,8 +1,9 @@
-<html>
-<head>
-    <title>Выбор клиента</title>
-</head>
-<body>
+{% extends "form_choice.html" %}
+
+{% block results %}
+<div class="content">
+<br>
+<p>
     <form action="/choice/domains/dates/" method="post">
 	<select name = "pst"
 	onchange="submit();">
@@ -12,5 +13,7 @@
 	{% endfor %}
 	</select>
     </form>
-</body>
-</html>
+</p>
+</div>
+<br clear="both" />
+{% endblock %}

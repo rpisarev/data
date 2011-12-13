@@ -1,16 +1,18 @@
-<html>
-<head>
-    <title>Выбор клиента</title>
-</head>
-<body>
+{% extends "form_choice.html" %}
+
+{% block results %}
+<div class="content">
+<br>
+<p>
     <form action="{{ url }}" method="post">
-	<select name = "pst"
-	onchange="submit();">
+	<select name = "pst" onchange="submit();">
 	<option>Выбор клиента</option>
 	{% for k in combo %}
 		<option value="{{ k }}"> {{ k }}</option>
 	{% endfor %}
 	</select>
     </form>
-</body>
-</html>
+</p>
+</div>
+<br clear="both" />
+{% endblock %}
