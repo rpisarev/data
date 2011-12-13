@@ -6,7 +6,7 @@
 <p>
     <form action="{{ url }}" method="post">
 	<select name = "pst" onchange="submit();">
-	<option>Выбор клиента</option>
+	<option>Критерий выбора</option>
 	{% for k in combo %}
 		<option value="{{ k }}"> {{ k }}</option>
 	{% endfor %}
