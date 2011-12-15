@@ -104,7 +104,7 @@ def link_list():
 
 def objects_form(request, category):
 	if category in ['cms', 'websyslist', 'clients']:
-	#	from django.contrib.auth.models import User   #Моэно сбросить забтый пароль админки
+	#	from django.contrib.auth.models import User   #Можно сбросить забытый пароль админки
 	#	user = User.objects.get( username="admin" )
 	#	user.set_password("cV3p,Ew")
 	#	user.save()
