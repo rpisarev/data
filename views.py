@@ -22,7 +22,7 @@ def all_krit_in_classes():
         return ['clients', 'projects', 'domains', 'sites', 'mails', 'websys', 'websyslist', 'contactes', 'cms', 'cmsacc']
 
 def hello(request):
-	return HttpResponse('<p>1</p>')
+	return choice_stat_result_abstr_form(request, 'clients')
 def flinks():
 	return {
         'clients': [u'Клиенты', '/choice/clients/'],
