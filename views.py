@@ -66,6 +66,41 @@ def names_of_classes(classname):
 
 # Статические формы
 
+# QR
+def qr(request):
+	import Image
+	size = 80, 20
+	a=1
+        now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), 14
+	#try:
+	im = Image.open('/home/ruslan/logo.gif').convert("1")
+	out = im.resize(size)
+	out.save('/home/ruslan/logo.bmp', "BMP")
+	a = im.info
+	from pygooglechart import QRChart
+
+	# Create a 250x250 QR chart
+
+	chart = QRChart(250, 250)
+
+	chart.add_data('www.mid.ua www.idea.net.ua')
+
+	# "Level H" error correction with a 0 pixel margin
+
+	chart.set_ec('H', 0)
+
+	chart.download('/var/www/vhosts/data.mid.ua/www/media/logo.jpg')
+	#except IOError:
+        #	raise Http404()
+        return render_to_response('form_qr.html',
+        {
+                'current_date': now,
+                'choice_get': menu,
+		'b': a,
+        }
+        )
+
+
 # Статические результирующие
 def choice_stat_result_abstr_form(request, category):
 	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), category
