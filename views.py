@@ -101,27 +101,36 @@ def qr(request):
         )
 
 
+def getattrfunc(cli, name, category):
+	res = [getattr(cli, name)]
+	if category in ['cms']:
+		return res + [getattr(cli, 'codename')]
+	else:
+		return res
+
+
 # Статические результирующие
 def choice_stat_result_abstr_form(request, category):
 	now, links, menu, notlink = datetime.datetime.now(), flinks(), fmenu(), category
 	select_from, name = names_of_classes(category)
+	y = type (select_from)
 	title = {
-	'cms': u'Админки',
-	'websyslist': u'Веб-системы',
-	'clients': u'Клиенты'
+	'cms': [u'Админки', u'Вход в админку'],
+	'websyslist': [u'Веб-системы'],
+	'clients': [u'Клиенты']
 	} [category]
 	data_choice = {
-	'cms': (lambda cl: [[getattr(cli, name)] for cli in cl.objects.all()])(select_from),
-	'websyslist': (lambda cl: [[getattr(cli, name)] for cli in cl.objects.all()])(select_from),
+		'cms': (lambda cl: [getattrfunc(cli, name, category) for cli in cl.objects.all()])(select_from),
+		'websyslist': (lambda cl: [getattrfunc(cli, name, category) for cli in cl.objects.all()])(select_from),
 	}
 	if category == 'clients':
-		data_choice[category] = (lambda cl: [[getattr(cli, name)] for cli in cl.objects.filter(enable = 1)])(select_from)
+		data_choice[category] = (lambda cl: [getattrfunc(cli, name, category) for cli in cl.objects.filter(enable = 1)])(select_from)
         return render_to_response('form_choice_clients.html',
         {
                 'current_date': now,
                 'choice_get': menu,
                 'current': links[notlink][0],
-		'titl': [title],
+		'titl': title,
                 'data': data_choice[category]
         }
         )
